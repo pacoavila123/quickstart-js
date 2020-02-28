@@ -20,10 +20,8 @@
  */
 function FriendlyEats() { // eslint-disable-line no-redeclare
   this.filters = {
-    city: '',
-    price: '',
     category: '',
-    sort: 'Rating'
+    sort: 'Date'
   };
 
   this.dialogs = {};
@@ -63,17 +61,17 @@ FriendlyEats.prototype.initRouter = function() {
       }
     })
     .on({
-      '/restaurants/*': function() {
+      '/meals/*': function() {
         var path = that.getCleanPath(document.location.pathname);
         var id = path.split('/')[2];
-        that.viewRestaurant(id);
+        that.viewMeal(id);
       }
     })
     .resolve();
 
   firebase
     .firestore()
-    .collection('restaurants')
+    .collection('meals')
     .limit(1)
     .onSnapshot(function(snapshot) {
       if (snapshot.empty) {
@@ -110,91 +108,14 @@ FriendlyEats.prototype.data = {
     'Prime',
     'Eatin\''
   ],
-  cities: [
-    'Albuquerque',
-    'Arlington',
-    'Atlanta',
-    'Austin',
-    'Baltimore',
-    'Boston',
-    'Charlotte',
-    'Chicago',
-    'Cleveland',
-    'Colorado Springs',
-    'Columbus',
-    'Dallas',
-    'Denver',
-    'Detroit',
-    'El Paso',
-    'Fort Worth',
-    'Fresno',
-    'Houston',
-    'Indianapolis',
-    'Jacksonville',
-    'Kansas City',
-    'Las Vegas',
-    'Long Island',
-    'Los Angeles',
-    'Louisville',
-    'Memphis',
-    'Mesa',
-    'Miami',
-    'Milwaukee',
-    'Nashville',
-    'New York',
-    'Oakland',
-    'Oklahoma',
-    'Omaha',
-    'Philadelphia',
-    'Phoenix',
-    'Portland',
-    'Raleigh',
-    'Sacramento',
-    'San Antonio',
-    'San Diego',
-    'San Francisco',
-    'San Jose',
-    'Tucson',
-    'Tulsa',
-    'Virginia Beach',
-    'Washington'
-  ],
   categories: [
-    'Brunch',
-    'Burgers',
-    'Coffee',
-    'Deli',
-    'Dim Sum',
-    'Indian',
-    'Italian',
-    'Mediterranean',
-    'Mexican',
-    'Pizza',
-    'Ramen',
-    'Sushi'
+    'Mains',
+    'Sides',
+    'Salads',
+    'Desserts',
+    'Flatbread/Pizzas',
+    'Soups/Broths',
   ],
-  ratings: [
-    {
-      rating: 1,
-      text: 'Would never eat here again!'
-    },
-    {
-      rating: 2,
-      text: 'Not my cup of tea.'
-    },
-    {
-      rating: 3,
-      text: 'Exactly okay :/'
-    },
-    {
-      rating: 4,
-      text: 'Actually pretty good, would recommend!'
-    },
-    {
-      rating: 5,
-      text: 'This is my favorite place. Literally.'
-    }
-  ]
 };
 
 window.onload = function() {

@@ -1,7 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /restaurants/{restaurant} {
+    match /meals/{meal} {
       match /ratings/{rating} {
         allow read: if request.auth != null;
         allow write: if request.auth.uid == request.resource.data.userId;

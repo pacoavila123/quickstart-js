@@ -27,7 +27,7 @@ FriendlyEats.prototype.initTemplates = function() {
 };
 
 FriendlyEats.prototype.viewHome = function() {
-  this.getAllRestaurants();
+  this.getAllMeals();
 };
 
 FriendlyEats.prototype.viewList = function(filters, filter_description) {
@@ -80,40 +80,38 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     }
     var data = doc.data();
     data['.id'] = doc.id;
-    data['go_to_restaurant'] = function() {
-      that.router.navigate('/restaurants/' + doc.id);
+    data['go_to_meal'] = function() {
+      that.router.navigate('/meals/' + doc.id);
     };
 
-    // check if restaurant card has already been rendered
-    var existingRestaurantCardEl = mainEl.querySelector('#' + that.ID_CONSTANT + doc.id);
-    var el = existingRestaurantCardEl || that.renderTemplate('restaurant-card', data);
+    // check if meal card has already been rendered
+    var existingMealCardEl = mainEl.querySelector('#' + that.ID_CONSTANT + doc.id);
+    var el = existingMealCardEl || that.renderTemplate('meal-card', data);
 
     var ratingEl = el.querySelector('.rating');
-    var priceEl = el.querySelector('.price');
+//    var priceEl = el.querySelector('.price');
 
     // clear out existing rating and price if they already exist
-    if (existingRestaurantCardEl) {
+    if (existingMealCardEl) {
       ratingEl.innerHTML = '';
-      priceEl.innerHTML = '';
+//      priceEl.innerHTML = '';
     }
 
-    ratingEl.append(that.renderRating(data.avgRating));
-    priceEl.append(that.renderPrice(data.price));
+    ratingEl.append(that.renderCalories(data.avgCalories));
+//    priceEl.append(that.renderPrice(data.price));
 
-    if (!existingRestaurantCardEl) {
+    if (!existingMealCardEl) {
       mainEl.querySelector('#cards').append(el);
     }
   };
 
-  if (filters.city || filters.category || filters.price || filters.sort !== 'Rating' ) {
-    this.getFilteredRestaurants({
-      city: filters.city || 'Any',
+  if (filters.category || filters.sort !== 'Date' ) {
+    this.getFilteredMeals({
       category: filters.category || 'Any',
-      price: filters.price || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
-    this.getAllRestaurants(renderResults);
+    this.getAllMeals(renderResults);
   }
 
   var toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -128,9 +126,9 @@ FriendlyEats.prototype.viewSetup = function() {
   });
 
   var config = this.getFirebaseConfig();
-  var noRestaurantsEl = this.renderTemplate('no-restaurants', config);
+  var noMealsEl = this.renderTemplate('no-meals', config);
 
-  var button = noRestaurantsEl.querySelector('#add_mock_data');
+  var button = noMealsEl.querySelector('#add_mock_data');
   var addingMockData = false;
 
   var that = this;
@@ -144,17 +142,17 @@ FriendlyEats.prototype.viewSetup = function() {
     event.target.style.opacity = '0.4';
     event.target.innerText = 'Please wait...';
 
-    that.addMockRestaurants().then(function() {
+    that.addMockMeals().then(function() {
       that.rerender();
     });
   });
 
   this.replaceElement(document.querySelector('.header'), headerEl);
-  this.replaceElement(document.querySelector('main'), noRestaurantsEl);
+  this.replaceElement(document.querySelector('main'), noMealsEl);
 
   firebase
     .firestore()
-    .collection('restaurants')
+    .collection('meals')
     .limit(1)
     .onSnapshot(function(snapshot) {
       if (snapshot.size && !addingMockData) {
@@ -281,7 +279,7 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   if (filters.category !== '') {
     query_description += filters.category + ' places';
   } else {
-    query_description += 'any restaurant';
+    query_description += 'any meal';
   }
 
   if (filters.city !== '') {
@@ -296,8 +294,8 @@ FriendlyEats.prototype.updateQuery = function(filters) {
     query_description += ' with any price';
   }
 
-  if (filters.sort === 'Rating') {
-    query_description += ' sorted by rating';
+  if (filters.sort === 'Calories') {
+    query_description += ' sorted by calories';
   } else if (filters.sort === 'Reviews') {
     query_description += ' sorted by # of reviews';
   }
@@ -305,11 +303,11 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   this.viewList(filters, query_description);
 };
 
-FriendlyEats.prototype.viewRestaurant = function(id) {
+FriendlyEats.prototype.viewMeal = function(id) {
   var sectionHeaderEl;
   var that = this;
 
-  return this.getRestaurant(id)
+  return this.getMeal(id)
     .then(function(doc) {
       var data = doc.data();
       var dialog =  that.dialogs.add_review;
@@ -318,10 +316,10 @@ FriendlyEats.prototype.viewRestaurant = function(id) {
         dialog.show();
       };
 
-      sectionHeaderEl = that.renderTemplate('restaurant-header', data);
+      sectionHeaderEl = that.renderTemplate('meal-header', data);
       sectionHeaderEl
         .querySelector('.rating')
-        .append(that.renderRating(data.avgRating));
+        .append(that.renderCalories(data.avgCalories));
 
       sectionHeaderEl
         .querySelector('.price')
@@ -337,13 +335,13 @@ FriendlyEats.prototype.viewRestaurant = function(id) {
         ratings.forEach(function(rating) {
           var data = rating.data();
           var el = that.renderTemplate('review-card', data);
-          el.querySelector('.rating').append(that.renderRating(data.rating));
+          el.querySelector('.rating').append(that.renderCalories(data.rating));
           mainEl.querySelector('#cards').append(el);
         });
       } else {
         mainEl = that.renderTemplate('no-ratings', {
           add_mock_data: function() {
-            that.addMockRatings(id).then(function() {
+            that.addMockCalories(id).then(function() {
               that.rerender();
             });
           }
@@ -486,7 +484,7 @@ FriendlyEats.prototype.getDeepItem = function(obj, path) {
   return obj;
 };
 
-FriendlyEats.prototype.renderRating = function(rating) {
+FriendlyEats.prototype.renderCalories = function(rating) {
   var el = this.renderTemplate('rating', {});
   for (var r = 0; r < 5; r += 1) {
     var star;

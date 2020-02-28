@@ -15,15 +15,15 @@
  */
 'use strict';
 
-FriendlyEats.prototype.addRestaurant = function (data) {
-  const collection = firebase.firestore().collection('restaurants');
+FriendlyEats.prototype.addMeal = function (data) {
+  const collection = firebase.firestore().collection('meals');
   return collection.add(data);
 };
 
-FriendlyEats.prototype.getAllRestaurants = function (render) {
+FriendlyEats.prototype.getAllMeals = function (render) {
   const query = firebase.firestore()
-    .collection('restaurants')
-    .orderBy('avgRating', 'desc')
+    .collection('meals')
+    .orderBy('Date', 'desc')
     .limit(50);
   this.getDocumentsInQuery(query, render);
 };
@@ -42,37 +42,29 @@ FriendlyEats.prototype.getDocumentsInQuery = function (query, render) {
   });
 };
 
-FriendlyEats.prototype.getRestaurant = function (id) {
-  return firebase.firestore().collection('restaurants').doc(id).get();
+FriendlyEats.prototype.getMeal = function (id) {
+  return firebase.firestore().collection('meals').doc(id).get();
 };
 
-FriendlyEats.prototype.getFilteredRestaurants = function (filters, render) {
-  let query = firebase.firestore().collection('restaurants');
+FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
+  let query = firebase.firestore().collection('meals');
 
   if (filters.category !== 'Any') {
     query = query.where('category', '==', filters.category);
   }
 
-  if (filters.city !== 'Any') {
-    query = query.where('city', '==', filters.city);
-  }
-
-  if (filters.price !== 'Any') {
-    query = query.where('price', '==', filters.price.length);
-  }
-
-  if (filters.sort === 'Rating') {
-    query = query.orderBy('avgRating', 'desc');
+  if (filters.sort === 'Calories') {
+    query = query.orderBy('calories', 'desc');
   } else if (filters.sort === 'Reviews') {
-    query = query.orderBy('numRatings', 'desc');
+    query = query.orderBy('date', 'desc');
   }
 
   this.getDocumentsInQuery(query, render);
 };
 
-FriendlyEats.prototype.addRating = function (restaurantID, rating) {
-  const collection = firebase.firestore().collection('restaurants');
-  const document = collection.doc(restaurantID);
+FriendlyEats.prototype.addRating = function (mealID, rating) {
+  const collection = firebase.firestore().collection('meals');
+  const document = collection.doc(mealID);
   const newRatingDocument = document.collection('ratings').doc();
 
   return firebase.firestore().runTransaction((transaction) => {
@@ -80,11 +72,11 @@ FriendlyEats.prototype.addRating = function (restaurantID, rating) {
       const data = doc.data();
 
       const newAverage =
-          (data.numRatings * data.avgRating + rating.rating) /
-          (data.numRatings + 1);
+          (data.numRating * data.avgRating + rating.rating) /
+          (data.numRating + 1);
 
       transaction.update(document, {
-        numRatings: data.numRatings + 1,
+        numRating: data.numRating + 1,
         avgRating: newAverage
       });
       return transaction.set(newRatingDocument, rating);

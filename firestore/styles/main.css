@@ -371,15 +371,15 @@
    margin-top: 170px;
  }
 
- #restaurant-header {
+ #meal-header {
    padding-bottom: 30px;
  }
 
- #restaurant-header .content {
+ #meal-header .content {
    padding-top: 246px;
  }
 
- #restaurant-header header {
+ #meal-header header {
    box-shadow: rgba(0, 0, 0, .2) 0px 2px 2px;
  }
 
@@ -393,7 +393,7 @@
    width: 100%;
  }
 
- #restaurant-header > header > .content {
+ #meal-header > header > .content {
    width: 100%;
    clear: both;
  }
@@ -408,11 +408,11 @@
    text-align: left;
  }
 
- #restaurant-header .info {
+ #meal-header .info {
    height: 76px;
  }
 
- #restaurant-header .mdc-layout-grid {
+ #meal-header .mdc-layout-grid {
    --mdc-layout-grid-margin-desktop: 0px 10px 0px 10px;
    --mdc-layout-grid-margin-tablet: 0px 10px 0px 10px;
    --mdc-layout-grid-margin-phone: 0px 10px 0px 10px;
@@ -447,30 +447,30 @@
    /* IE6-9 */
  }
 
- #restaurant-header .details {
+ #meal-header .details {
    color: white;
    font-size: 14px;
  }
 
- #restaurant-header h2 {
+ #meal-header h2 {
    font-size: 22px;
    color: white;
    margin: 0px;
    display: inline;
  }
 
- #restaurant-header .price {
+ #meal-header .price {
    color: white;
    position: relative;
    left: 5px;
    top: -1px;
  }
 
- #restaurant-header #rating {
+ #meal-header #rating {
    padding-top: 4px;
  }
 
- #restaurant-header #rating .material-icons {
+ #meal-header #rating .material-icons {
    color: white;
    font-size: 20px;
    position: relative;
@@ -478,7 +478,7 @@
    font-size: 18px;
  }
 
- #restaurant-header .fab {
+ #meal-header .fab {
    min-width: 0px;
    box-shadow: rgba(0, 0, 0, 0.2) 3px 3px 2px;
    border-radius: 100%;
