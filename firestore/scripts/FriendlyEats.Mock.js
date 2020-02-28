@@ -29,10 +29,14 @@ FriendlyEats.prototype.addMockMeals = function() {
     var category = this.getRandomItem(this.data.categories);
     var photoID = Math.floor(Math.random() * 22) + 1;
     var photo = 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_' + photoID + '.png';
+    var calories = Math.floor(Math.random() * 1000) + 1;
+    var date = firebase.firestore.Timestamp.now();
 
     var promise = this.addMeal({
       name: name,
       category: category,
+      calories: calories,
+      date: date,
       photo: photo
     });
 

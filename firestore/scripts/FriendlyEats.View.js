@@ -32,7 +32,7 @@ FriendlyEats.prototype.viewHome = function() {
 
 FriendlyEats.prototype.viewList = function(filters, filter_description) {
   if (!filter_description) {
-    filter_description = 'any type of food with any price in any city.';
+    filter_description = 'any type of food with any calories.';
   }
 
   var mainEl = this.renderTemplate('main-adjusted');
@@ -88,16 +88,16 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     var existingMealCardEl = mainEl.querySelector('#' + that.ID_CONSTANT + doc.id);
     var el = existingMealCardEl || that.renderTemplate('meal-card', data);
 
-    var ratingEl = el.querySelector('.rating');
+    var caloriesEl = el.querySelector('.calories');
 //    var priceEl = el.querySelector('.price');
 
     // clear out existing rating and price if they already exist
     if (existingMealCardEl) {
-      ratingEl.innerHTML = '';
+      caloriesEl.innerHTML = '';
 //      priceEl.innerHTML = '';
     }
 
-    ratingEl.append(that.renderCalories(data.avgCalories));
+    caloriesEl.append(that.renderCalories(data.avgCalories));
 //    priceEl.append(that.renderPrice(data.price));
 
     if (!existingMealCardEl) {
@@ -144,6 +144,9 @@ FriendlyEats.prototype.viewSetup = function() {
 
     that.addMockMeals().then(function() {
       that.rerender();
+    })
+    .catch(function() {
+      console.log("Failed to generate mock meals: " + error);
     });
   });
 
@@ -218,10 +221,10 @@ FriendlyEats.prototype.initFilterDialog = function() {
     that.renderTemplate('item-list', { items: ['Any'].concat(that.data.categories) })
   );
 
-  this.replaceElement(
-    dialog.querySelector('#city-list'),
-    that.renderTemplate('item-list', { items: ['Any'].concat(that.data.cities) })
-  );
+//  this.replaceElement(
+//    dialog.querySelector('#city-list'),
+//    that.renderTemplate('item-list', { items: ['Any'].concat(that.data.cities) })
+//  );
 
   var renderAllList = function() {
     that.replaceElement(
@@ -282,22 +285,24 @@ FriendlyEats.prototype.updateQuery = function(filters) {
     query_description += 'any meal';
   }
 
-  if (filters.city !== '') {
-    query_description += ' in ' + filters.city;
-  } else {
-    query_description += ' located anywhere';
-  }
+//  if (filters.city !== '') {
+//    query_description += ' in ' + filters.city;
+//  } else {
+//    query_description += ' located anywhere';
+//  }
 
-  if (filters.price !== '') {
-    query_description += ' with a price of ' + filters.price;
-  } else {
-    query_description += ' with any price';
-  }
+//  if (filters.price !== '') {
+//    query_description += ' with a price of ' + filters.price;
+//  } else {
+//    query_description += ' with any price';
+//  }
 
   if (filters.sort === 'Calories') {
     query_description += ' sorted by calories';
   } else if (filters.sort === 'Reviews') {
     query_description += ' sorted by # of reviews';
+  } else if (filters.sort === 'Date') {
+    query_description += ' sorted by date';
   }
 
   this.viewList(filters, query_description);
