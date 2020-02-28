@@ -54,7 +54,7 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   }
 
   if (filters.sort === 'Calories') {
-    query = query.orderBy('calories', 'desc');
+    query = query.orderBy('nutritionFacts.calories', 'desc');
   } else if (filters.sort === 'Date') {
     query = query.orderBy('date', 'desc');
   }

@@ -143,12 +143,12 @@
                 <div class="max_width_600">
                   <h2 data-fir-content="name"></h2>
                   <span class="price"></span>
-                  <div class="rating"></div>
+                  <div class="calories"></div>
                   <div class="details">
-                    <span class="rating"></span>
+                    <span class="calories"></span>
                     <span data-fir-content="category"></span>
                     <span class="light">●</span>
-                    <span data-fir-content="calories"></span>
+                    <span data-fir-content="nutritionFacts/calories"></span>
                   </div>
                   <button id="show-add-review" data-fir-click="show_add_review" class="mdc-button fab">
                       <i class="material-icons">add</i>
@@ -160,7 +160,7 @@
     </header>
   </div>
 
-  <div hidden class="template" id="rating"></div>
+  <div hidden class="template" id="calories"></div>
   <span hidden class="template" id="price"></span>
 
   <div hidden class="template mdc-layout-grid__cell--span-12" id="review-card">
@@ -169,7 +169,7 @@
           <div class="author">
             <span class="light" data-fir-content="userName"></span>
           </div>
-          <div class="rating"></div>
+          <div class="calories"></div>
         </div>
         <div data-fir-content="text"></div>
     </div>
@@ -182,12 +182,12 @@
         <h2 data-fir-content="name">...</h2>
         <span class="info price"></span>
         <div class="details">
-          <div class="rating"></div>
+          <div class="calories"></div>
         </div>
         <div class="details">
           <span class="info" data-fir-content="category"></span>
           <span class="light">●</span>
-          <span class="info" data-fir-content="calories"></span>
+          <span class="info" data-fir-content="nutritionFacts/calories"></span>
         </div>
 
       </div>
@@ -300,7 +300,7 @@
               Calories
             </li>
             <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">
-              Reviews
+              Date
             </li>
           </ul>
         </section>

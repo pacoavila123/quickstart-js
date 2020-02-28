@@ -31,13 +31,21 @@ FriendlyEats.prototype.addMockMeals = function() {
     var photo = 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_' + photoID + '.png';
     var calories = Math.floor(Math.random() * 1000) + 1;
     var date = firebase.firestore.Timestamp.now();
+    var protein = Math.floor(Math.random() * 50) + 1;
+    var carbs = Math.floor(Math.random() * 50) + 1;
+    var fat = Math.floor(Math.random() * 50) + 1;
 
     var promise = this.addMeal({
       name: name,
       category: category,
-      calories: calories,
       date: date,
-      photo: photo
+      photo: photo,
+      nutritionFacts: {
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat
+      }
     });
 
     if (!promise) {

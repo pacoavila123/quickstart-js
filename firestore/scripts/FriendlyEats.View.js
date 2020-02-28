@@ -88,17 +88,14 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     var existingMealCardEl = mainEl.querySelector('#' + that.ID_CONSTANT + doc.id);
     var el = existingMealCardEl || that.renderTemplate('meal-card', data);
 
-//    var caloriesEl = el.querySelector('.calories');
-//    var priceEl = el.querySelector('.price');
+    var caloriesEl = el.querySelector('.calories');
 
-    // clear out existing rating and price if they already exist
-//    if (existingMealCardEl) {
-//      caloriesEl.innerHTML = '';
-//      priceEl.innerHTML = '';
-//    }
+    // clear out existing calories if they already exist
+    if (existingMealCardEl) {
+      caloriesEl.innerHTML = '';
+    }
 
-//    caloriesEl.append(that.renderCalories(data.avgCalories));
-//    priceEl.append(that.renderPrice(data.price));
+    caloriesEl.append(that.renderCalories(data.nutritionFacts.calories));
 
     if (!existingMealCardEl) {
       mainEl.querySelector('#cards').append(el);
@@ -312,25 +309,23 @@ FriendlyEats.prototype.viewMeal = function(id) {
       sectionHeaderEl = that.renderTemplate('meal-header', data);
 //      sectionHeaderEl
 //        .querySelector('.calories')
-//        .append(that.renderCalories(data.calories));
+//        .append(that.renderRatings(data.calories));
 
 //      sectionHeaderEl
 //        .querySelector('.price')
 //        .append(that.renderPrice(data.price));
-      return doc.ref.collection('ratings').orderBy('date', 'desc').get();
+      return doc.nutritionFacts;
     })
-    .then(function(ratings) {
+    .then(function(nutritionFacts) {
       var mainEl;
 
-      if (ratings.size) {
+      if (nutritionFacts) {
         mainEl = that.renderTemplate('main');
 
-        ratings.forEach(function(rating) {
-          var data = rating.data();
-          var el = that.renderTemplate('review-card', data);
-          el.querySelector('.rating').append(that.renderCalories(data.rating));
-          mainEl.querySelector('#cards').append(el);
-        });
+        var data = rating.data();
+        var el = that.renderTemplate('review-card', data);
+        el.querySelector('.calories').append(that.renderRatings(data.rating));
+        mainEl.querySelector('#cards').append(el);
       } else {
         mainEl = that.renderTemplate('no-ratings', {
           add_mock_data: function() {
@@ -477,11 +472,25 @@ FriendlyEats.prototype.getDeepItem = function(obj, path) {
   return obj;
 };
 
-FriendlyEats.prototype.renderCalories = function(rating) {
+FriendlyEats.prototype.renderRatings = function(rating) {
   var el = this.renderTemplate('rating', {});
   for (var r = 0; r < 5; r += 1) {
     var star;
     if (r < Math.floor(rating)) {
+      star = this.renderTemplate('star-icon', {});
+    } else {
+      star = this.renderTemplate('star-border-icon', {});
+    }
+    el.append(star);
+  }
+  return el;
+};
+
+FriendlyEats.prototype.renderCalories = function(calories) {
+  var el = this.renderTemplate('calories', {});
+  for (var r = 0; r < 5; r += 1) {
+    var star;
+    if (r < Math.floor(calories) / 100) {
       star = this.renderTemplate('star-icon', {});
     } else {
       star = this.renderTemplate('star-border-icon', {});
