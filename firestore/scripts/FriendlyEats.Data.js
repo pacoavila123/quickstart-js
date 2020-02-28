@@ -23,7 +23,7 @@ FriendlyEats.prototype.addMeal = function (data) {
 FriendlyEats.prototype.getAllMeals = function (render) {
   const query = firebase.firestore()
     .collection('meals')
-    .orderBy('Date', 'desc')
+    .orderBy('date', 'desc')
     .limit(50);
   this.getDocumentsInQuery(query, render);
 };

@@ -88,16 +88,16 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     var existingMealCardEl = mainEl.querySelector('#' + that.ID_CONSTANT + doc.id);
     var el = existingMealCardEl || that.renderTemplate('meal-card', data);
 
-    var caloriesEl = el.querySelector('.calories');
+//    var caloriesEl = el.querySelector('.calories');
 //    var priceEl = el.querySelector('.price');
 
     // clear out existing rating and price if they already exist
-    if (existingMealCardEl) {
-      caloriesEl.innerHTML = '';
+//    if (existingMealCardEl) {
+//      caloriesEl.innerHTML = '';
 //      priceEl.innerHTML = '';
-    }
+//    }
 
-    caloriesEl.append(that.renderCalories(data.avgCalories));
+//    caloriesEl.append(that.renderCalories(data.avgCalories));
 //    priceEl.append(that.renderPrice(data.price));
 
     if (!existingMealCardEl) {
@@ -106,11 +106,13 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.category || filters.sort !== 'Date' ) {
+    console.log("getFilteredMeals" + filters.category + " " + filters.sort);
     this.getFilteredMeals({
       category: filters.category || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
+    console.log("getAllMeals");
     this.getAllMeals(renderResults);
   }
 
@@ -280,29 +282,15 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   var query_description = '';
 
   if (filters.category !== '') {
-    query_description += filters.category + ' places';
+    query_description += filters.category;
   } else {
     query_description += 'any meal';
   }
 
-//  if (filters.city !== '') {
-//    query_description += ' in ' + filters.city;
-//  } else {
-//    query_description += ' located anywhere';
-//  }
-
-//  if (filters.price !== '') {
-//    query_description += ' with a price of ' + filters.price;
-//  } else {
-//    query_description += ' with any price';
-//  }
-
   if (filters.sort === 'Calories') {
-    query_description += ' sorted by calories';
-  } else if (filters.sort === 'Reviews') {
-    query_description += ' sorted by # of reviews';
+    query_description += ' sorted by Calories';
   } else if (filters.sort === 'Date') {
-    query_description += ' sorted by date';
+    query_description += ' sorted by Date';
   }
 
   this.viewList(filters, query_description);
@@ -322,14 +310,14 @@ FriendlyEats.prototype.viewMeal = function(id) {
       };
 
       sectionHeaderEl = that.renderTemplate('meal-header', data);
-      sectionHeaderEl
-        .querySelector('.rating')
-        .append(that.renderCalories(data.avgCalories));
+//      sectionHeaderEl
+//        .querySelector('.calories')
+//        .append(that.renderCalories(data.calories));
 
-      sectionHeaderEl
-        .querySelector('.price')
-        .append(that.renderPrice(data.price));
-      return doc.ref.collection('ratings').orderBy('timestamp', 'desc').get();
+//      sectionHeaderEl
+//        .querySelector('.price')
+//        .append(that.renderPrice(data.price));
+      return doc.ref.collection('ratings').orderBy('date', 'desc').get();
     })
     .then(function(ratings) {
       var mainEl;
