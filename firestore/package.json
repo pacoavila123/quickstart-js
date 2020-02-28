@@ -9,5 +9,13 @@
   "author": "",
   "devDependencies": {
     "prettier": "^1.5.3"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^7.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firebase/quickstart-js/tree/master/firestore"
   }
 }
