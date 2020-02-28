@@ -148,7 +148,7 @@
                     <span class="calories"></span>
                     <span data-fir-content="category"></span>
                     <span class="light">●</span>
-                    <span data-fir-content="nutritionFacts/calories"></span>
+                    <span data-fir-content="nutritionFacts/calories"></span> Calories
                   </div>
                   <button id="show-add-review" data-fir-click="show_add_review" class="mdc-button fab">
                       <i class="material-icons">add</i>
@@ -166,12 +166,19 @@
   <div hidden class="template mdc-layout-grid__cell--span-12" id="review-card">
     <div class="review max_width_600">
         <div class="header">
-          <div class="author">
-            <span class="light" data-fir-content="userName"></span>
+          <div class="calories">
+            <span class="light" data-fir-content="calories"></span> Calories
           </div>
-          <div class="calories"></div>
+          <div class="carbs">
+            <span class="light" data-fir-content="carbs"></span> Carbohydrates (g)
+          </div>
+          <div class="protein">
+            <span class="light" data-fir-content="protein"></span> Protein (g)
+          </div>
+          <div class="fat">
+            <span class="light" data-fir-content="fat"></span> Fat (g)
+          </div>
         </div>
-        <div data-fir-content="text"></div>
     </div>
   </div>
 
@@ -182,14 +189,13 @@
         <h2 data-fir-content="name">...</h2>
         <span class="info price"></span>
         <div class="details">
-          <div class="calories"></div>
+          <div class="nutritionFacts"></div>
         </div>
         <div class="details">
           <span class="info" data-fir-content="category"></span>
           <span class="light">●</span>
-          <span class="info" data-fir-content="nutritionFacts/calories"></span>
+          <span class="info" data-fir-content="nutritionFacts/calories"></span> Calories
         </div>
-
       </div>
     </div>
   </div>

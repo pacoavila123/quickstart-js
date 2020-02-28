@@ -25,7 +25,7 @@
 
  body > div > i {display: none !important;}
 
- #cards .rating .material-icons {font-size: 24px;}
+ #cards .calories .material-icons {font-size: 24px;}
 
  #cards .details {
    color: #aaa;
@@ -90,7 +90,7 @@
 
  .location-card .mdc-card__supporting-text {padding: 0px 16px 16px 16px;}
 
- .location-card .rating {padding-bottom: 8px;}
+ .location-card .calories {padding-bottom: 8px;}
 
  header {display: flex !important;}
 
@@ -262,7 +262,7 @@
    margin: 0px auto;
  }
 
- #rating .material-icons {color: #feb22c;}
+ #calories .material-icons {color: #feb22c;}
 
  #review-card .header {
    clear: both;
@@ -276,13 +276,12 @@
    color: #999;
  }
 
- #review-card .rating {
-   float: right;
+ #review-card .calories {
    position: relative;
    top: -10px;
  }
 
- #review-card #rating .material-icons {
+ #review-card #calories .material-icons {
    font-size: 20px;
 
  }
@@ -466,11 +465,11 @@
    top: -1px;
  }
 
- #meal-header #rating {
+ #meal-header #calories {
    padding-top: 4px;
  }
 
- #meal-header #rating .material-icons {
+ #meal-header #calories .material-icons {
    color: white;
    font-size: 20px;
    position: relative;
