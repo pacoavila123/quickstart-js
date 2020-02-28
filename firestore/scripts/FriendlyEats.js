@@ -116,6 +116,17 @@ FriendlyEats.prototype.data = {
     'Flatbread/Pizzas',
     'Soups/Broths',
   ],
+  ingredients: [
+    'Beef',
+    'Chicken',
+    'Pork',
+    'Tofu',
+    'Lettuce',
+    'Tomato',
+    'Onion',
+    'Flour',
+    'Sugar',
+  ],
 };
 
 window.onload = function() {

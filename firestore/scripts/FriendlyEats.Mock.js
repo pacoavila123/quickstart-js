@@ -34,6 +34,7 @@ FriendlyEats.prototype.addMockMeals = function() {
     var protein = Math.floor(Math.random() * 50) + 1;
     var carbs = Math.floor(Math.random() * 50) + 1;
     var fat = Math.floor(Math.random() * 50) + 1;
+    var ingredients = this.getMockIngredients();
 
     var promise = this.addMeal({
       name: name,
@@ -45,7 +46,8 @@ FriendlyEats.prototype.addMockMeals = function() {
         protein: protein,
         carbs: carbs,
         fat: fat
-      }
+      },
+      ingredients: ingredients,
     });
 
     if (!promise) {
@@ -62,16 +64,13 @@ FriendlyEats.prototype.addMockMeals = function() {
 /**
  * Adds a set of mock Calories to the given Meal.
  */
-//FriendlyEats.prototype.addMockCalories = function(mealID) {
-//  var ratingPromises = [];
-//  for (var r = 0; r < 5*Math.random(); r++) {
-//    var rating = this.data.ratings[
-//      parseInt(this.data.ratings.length*Math.random())
-//    ];
-//    rating.userName = 'Bot (Web)';
-//    rating.timestamp = new Date();
-//    rating.userId = firebase.auth().currentUser.uid;
-//    ratingPromises.push(this.addCalories(mealID, rating));
-//  }
-//  return Promise.all(ratingPromises);
-//};
+FriendlyEats.prototype.getMockIngredients = function() {
+  var ingredients = [];
+  for (var r = 0; r < 10*Math.random(); r++) {
+    var ingredient = this.data.ingredients[
+      parseInt(this.data.ingredients.length*Math.random())
+    ];
+    ingredients.push(ingredient);
+  }
+  return ingredients;
+};

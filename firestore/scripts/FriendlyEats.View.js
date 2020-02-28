@@ -311,15 +311,16 @@ FriendlyEats.prototype.viewMeal = function(id) {
 //        .querySelector('.calories')
 //        .append(that.renderStars(data.nutritionFacts.calories));
 
-      return data.nutritionFacts;
+      return data;
     })
-    .then(function(nutritionFacts) {
+    .then(function(meal) {
       var mainEl;
 
-      if (nutritionFacts) {
+      if (meal) {
         mainEl = that.renderTemplate('main');
 
-        var el = that.renderTemplate('review-card', nutritionFacts);
+        var nutritionFacts = meal.nutritionFacts;
+        var el = that.renderTemplate('review-card', meal);
         el.querySelector('.calories').append(that.renderStars(nutritionFacts.calories));
         el.querySelector('.carbs').append(that.renderStars(nutritionFacts.carbs));
         el.querySelector('.protein').append(that.renderStars(nutritionFacts.protein));
