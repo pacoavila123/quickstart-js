@@ -129,7 +129,11 @@
         </div>
       </div>
     </div>
+    <button id="show-add-meal" data-fir-click="show_add_meal" class="mdc-button fab">
+      <i class="material-icons">add</i> Add a Meal
+    </button>
   </div>
+
 
   <div hidden class="template" id="meal-header">
     <header class="mdc-layout__header mdc-layout__header--transparent" data-fir-style="backgroundImage:photo">
@@ -169,15 +173,20 @@
           <div class="calories">
             <span class="light" data-fir-content="nutritionFacts/calories"></span> Calories
           </div>
+          <br>
           <div class="carbs">
             <span class="light" data-fir-content="nutritionFacts/carbs"></span> Carbohydrates (g)
           </div>
+          <br>
           <div class="protein">
             <span class="light" data-fir-content="nutritionFacts/protein"></span> Protein (g)
           </div>
+          <br>
           <div class="fat">
             <span class="light" data-fir-content="nutritionFacts/fat"></span> Fat (g)
           </div>
+          <br>
+          Ingredients:
           <div data-fir-content="ingredients"></div>
         </div>
     </div>

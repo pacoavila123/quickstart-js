@@ -74,3 +74,36 @@ FriendlyEats.prototype.getMockIngredients = function() {
   }
   return ingredients;
 };
+
+FriendlyEats.prototype.data = {
+  words: [
+    'Bar',
+    'Fire',
+    'Grill',
+    'Drive Thru',
+    'Place',
+    'Best',
+    'Spot',
+    'Prime',
+    'Eatin\''
+  ],
+  categories: [
+    'Mains',
+    'Sides',
+    'Salads',
+    'Desserts',
+    'Flatbread/Pizzas',
+    'Soups/Broths',
+  ],
+  ingredients: [
+    'Beef',
+    'Chicken',
+    'Pork',
+    'Tofu',
+    'Lettuce',
+    'Tomato',
+    'Onion',
+    'Flour',
+    'Sugar',
+  ],
+};

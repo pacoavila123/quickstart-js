@@ -96,38 +96,6 @@ FriendlyEats.prototype.getRandomItem = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-FriendlyEats.prototype.data = {
-  words: [
-    'Bar',
-    'Fire',
-    'Grill',
-    'Drive Thru',
-    'Place',
-    'Best',
-    'Spot',
-    'Prime',
-    'Eatin\''
-  ],
-  categories: [
-    'Mains',
-    'Sides',
-    'Salads',
-    'Desserts',
-    'Flatbread/Pizzas',
-    'Soups/Broths',
-  ],
-  ingredients: [
-    'Beef',
-    'Chicken',
-    'Pork',
-    'Tofu',
-    'Lettuce',
-    'Tomato',
-    'Onion',
-    'Flour',
-    'Sugar',
-  ],
-};
 
 window.onload = function() {
   window.app = new FriendlyEats();
