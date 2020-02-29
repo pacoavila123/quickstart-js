@@ -22,6 +22,13 @@ FriendlyEats.prototype.addMockMeals = function() {
   var promises = [];
 
   for (var i = 0; i < 20; i++) {
+    promises.push(this.addMockMeal());
+  }
+
+  return Promise.all(promises);
+};
+
+FriendlyEats.prototype.addMockMeal = function () {
     var name =
         this.getRandomItem(this.data.words) +
         ' ' +
@@ -53,13 +60,9 @@ FriendlyEats.prototype.addMockMeals = function() {
     if (!promise) {
       alert('addMeal() is not implemented yet!');
       return Promise.reject();
-    } else {
-      promises.push(promise);
     }
-  }
-
-  return Promise.all(promises);
-};
+    return promise;
+}
 
 /**
  * Adds a set of mock Calories to the given Meal.

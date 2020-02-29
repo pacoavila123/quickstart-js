@@ -220,11 +220,6 @@ FriendlyEats.prototype.initFilterDialog = function() {
     that.renderTemplate('item-list', { items: ['Any'].concat(that.data.categories) })
   );
 
-//  this.replaceElement(
-//    dialog.querySelector('#city-list'),
-//    that.renderTemplate('item-list', { items: ['Any'].concat(that.data.cities) })
-//  );
-
   var renderAllList = function() {
     that.replaceElement(
       dialog.querySelector('#all-filters-list'),
