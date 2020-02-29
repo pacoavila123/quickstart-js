@@ -54,6 +54,9 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   headerEl.querySelector('#show-filters').addEventListener('click', function() {
     that.dialogs.filter.show();
   });
+  headerEl.querySelector('#show-add-meal').addEventListener('click', function() {
+    that.addMockMeal();
+  });
 
   var renderResults = function(doc) {
     if (!doc) {
