@@ -28,7 +28,7 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
 
   var that = this;
 
-  firebase.firestore().enablePersistence()
+  firebase.firestore().enablePersistence({synchronizeTabs:true})
     .then(function() {
       return firebase.auth().signInAnonymously();
     })
@@ -72,10 +72,11 @@ FriendlyEats.prototype.initRouter = function() {
   firebase
     .firestore()
     .collection('meals')
-    .limit(1)
     .onSnapshot(function(snapshot) {
       if (snapshot.empty) {
         that.router.navigate('/setup');
+      } else {
+        that.updateQuery(that.filters);
       }
     });
 };

@@ -93,7 +93,7 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
 
     var nutritionFactsEl = el.querySelector('.nutritionFacts');
 
-    // clear out existing calories if they already exist
+    // clear out existing nutrition facts if they already exist
     if (existingMealCardEl) {
       nutritionFactsEl.innerHTML = '';
     }
@@ -164,6 +164,7 @@ FriendlyEats.prototype.viewSetup = function() {
         that.router.navigate('/');
       }
     });
+
 };
 
 FriendlyEats.prototype.initReviewDialog = function() {
