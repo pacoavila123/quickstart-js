@@ -57,6 +57,7 @@ FriendlyEats.prototype.addMockMeal = function () {
       nutritionFacts: nutritionFacts,
     })
     .then(function(docRef) {
+      // TODO(pacoavila) figure out why we're getting 400 on these.
       console.log("Document written with ID: ", docRef.id);
       that.addMockIngredients(docRef.id);
     });
