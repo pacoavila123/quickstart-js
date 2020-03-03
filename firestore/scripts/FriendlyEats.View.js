@@ -147,7 +147,7 @@ FriendlyEats.prototype.viewSetup = function() {
     that.addMockMeals().then(function() {
       that.rerender();
     })
-    .catch(function() {
+    .catch(function(error) {
       console.log("Failed to generate mock meals: " + error);
     });
   });

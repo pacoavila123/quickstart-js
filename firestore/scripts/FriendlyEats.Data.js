@@ -20,6 +20,11 @@ FriendlyEats.prototype.addMeal = function (data) {
   return collection.add(data);
 };
 
+FriendlyEats.prototype.addFood = function (data) {
+  const collection = firebase.firestore().collection('foods');
+  return collection.add(data);
+}
+
 FriendlyEats.prototype.getAllMeals = function (render) {
   const query = firebase.firestore()
     .collection('meals')
@@ -61,6 +66,29 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
 
   this.getDocumentsInQuery(query, render);
 };
+
+FriendlyEats.prototype.addIngredient = function(mealID, ingredient) {
+  const collection = firebase.firestore().collection('meals');
+  const document = collection.doc(mealID);
+  const ingredientDoc = document.collection('ingredients').doc();
+
+  return firebase.firestore().runTransaction((transaction) => {
+    return transaction.get(document).then((doc) => {
+      const data = doc.data();
+
+      var newNutritionFacts = data.nutritionFacts;
+      newNutritionFacts.calories += ingredient.nutritionFacts.calories;
+      newNutritionFacts.carbs += ingredient.nutritionFacts.carbs;
+      newNutritionFacts.protein += ingredient.nutritionFacts.protein;
+      newNutritionFacts.fat += ingredient.nutritionFacts.fat;
+
+      transaction.update(document, {
+        nutritionFacts: newNutritionFacts,
+      });
+      return transaction.set(ingredientDoc, ingredient);
+    })
+  })
+}
 
 FriendlyEats.prototype.addRating = function (mealID, rating) {
   const collection = firebase.firestore().collection('meals');

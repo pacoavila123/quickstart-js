@@ -15,10 +15,13 @@
  */
 'use strict';
 
+
 /**
  * Adds a set of mock Meals to the Cloud Firestore.
  */
 FriendlyEats.prototype.addMockMeals = function() {
+  this.addMockFoods();
+
   var promises = [];
 
   for (var i = 0; i < 20; i++) {
@@ -28,33 +31,34 @@ FriendlyEats.prototype.addMockMeals = function() {
   return Promise.all(promises);
 };
 
+FriendlyEats.prototype.addMockFoods = function () {
+  for (var i = 0; i < 20; i++) {
+    this.addFood(this.getMockFood());
+  }
+}
+
 FriendlyEats.prototype.addMockMeal = function () {
     var name =
-        this.getRandomItem(this.data.words) +
+        this.getRandomItem(this.data.adjectives) +
         ' ' +
         this.getRandomItem(this.data.words);
     var category = this.getRandomItem(this.data.categories);
     var photoID = Math.floor(Math.random() * 22) + 1;
     var photo = 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_' + photoID + '.png';
-    var calories = Math.floor(Math.random() * 1000) + 1;
     var date = firebase.firestore.Timestamp.now();
-    var protein = Math.floor(Math.random() * 50) + 1;
-    var carbs = Math.floor(Math.random() * 50) + 1;
-    var fat = Math.floor(Math.random() * 50) + 1;
-    var ingredients = this.getMockIngredients();
+    var nutritionFacts = this.getMockNutritionFacts();
+    var that = this;
 
     var promise = this.addMeal({
       name: name,
       category: category,
       date: date,
       photo: photo,
-      nutritionFacts: {
-        calories: calories,
-        protein: protein,
-        carbs: carbs,
-        fat: fat
-      },
-      ingredients: ingredients,
+      nutritionFacts: nutritionFacts,
+    })
+    .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+      that.addMockIngredients(docRef.id);
     });
 
     if (!promise) {
@@ -64,31 +68,58 @@ FriendlyEats.prototype.addMockMeal = function () {
     return promise;
 }
 
-/**
- * Adds a set of mock Calories to the given Meal.
- */
-FriendlyEats.prototype.getMockIngredients = function() {
-  var ingredients = [];
-  for (var r = 0; r < 10*Math.random(); r++) {
-    var ingredient = this.data.ingredients[
-      parseInt(this.data.ingredients.length*Math.random())
-    ];
-    ingredients.push(ingredient);
-  }
-  return ingredients;
-};
+FriendlyEats.prototype.addMockIngredients = function(mealID) {
+  var that = this;
+  firebase.firestore().collection('foods').limit(5)
+    .get()
+    .then(function(snapshot) {
+      snapshot.forEach(function(doc){
+        console.log(doc.id, " => ", doc.data());
+        that.addIngredient(mealID, doc.data());
+      })
+    });
+}
+
+FriendlyEats.prototype.getMockFood = function () {
+  var name = this.getRandomItem(this.data.food_names);
+  var nutritionFacts = this.getMockNutritionFacts();
+  return {
+    name: name,
+    nutritionFacts: nutritionFacts,
+  };
+}
+
+FriendlyEats.prototype.getMockNutritionFacts = function() {
+  var calories = Math.floor(Math.random() * 1000) + 1;
+  var serving_size = Math.floor(Math.random() * 4) + 1;
+  var protein = Math.floor(Math.random() * 50) + 1;
+  var carbs = Math.floor(Math.random() * 50) + 1;
+  var fat = Math.floor(Math.random() * 50) + 1;
+  return {
+     calories: calories,
+     serving_size: serving_size,
+     protein: protein,
+     carbs: carbs,
+     fat: fat
+  };
+}
+
 
 FriendlyEats.prototype.data = {
+  adjectives: [
+    'Savory',
+    'Spicy',
+    'Sweet',
+    'Bitter',
+    'Awesome',
+    'Googley',
+    'Umami',
+  ],
   words: [
-    'Bar',
-    'Fire',
-    'Grill',
-    'Drive Thru',
-    'Place',
-    'Best',
-    'Spot',
-    'Prime',
-    'Eatin\''
+    'Breakfast',
+    'Lunch',
+    'Dinner',
+    'Snack',
   ],
   categories: [
     'Mains',
@@ -98,7 +129,7 @@ FriendlyEats.prototype.data = {
     'Flatbread/Pizzas',
     'Soups/Broths',
   ],
-  ingredients: [
+  food_names: [
     'Beef',
     'Chicken',
     'Pork',

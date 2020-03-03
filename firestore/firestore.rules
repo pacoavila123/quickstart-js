@@ -2,18 +2,16 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /meals/{meal} {
-      match /ratings/{rating} {
-        allow read: if request.auth != null;
-        allow write: if request.auth.uid == request.resource.data.userId;
+      match /ingredients/{ingredient} {
+        allow read, write, create: if request.auth != null;
       }
-
       allow read: if request.auth != null;
       allow create: if request.auth != null;
-      allow update: if request.auth != null
-                    && request.resource.data.name == resource.data.name
-                    && request.resource.data.city == resource.data.city
-                    && request.resource.data.price == resource.data.price
-                    && request.resource.data.category == resource.data.category;
+      allow update: if request.auth != null;
+    }
+    match /foods/{food} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
     }
   }
 }
