@@ -89,7 +89,7 @@ FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
       });
       console.log(ingredientDocRef);
       return transaction.set(ingredientDoc, {
-        ingredient_id: ingredientDocRef.id,
+        food_id: ingredientDocRef.id,
         name: ingData.name,
         nutritionFacts: ingData.nutritionFacts,
       });
