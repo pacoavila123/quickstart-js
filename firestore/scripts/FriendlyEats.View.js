@@ -306,40 +306,17 @@ FriendlyEats.prototype.viewMeal = function(id) {
       };
 
       sectionHeaderEl = that.renderTemplate('meal-header', data);
-//      sectionHeaderEl
-//        .querySelector('.calories')
-//        .append(that.renderStars(data.nutritionFacts.calories));
 
       return doc.ref.collection('ingredients').get();
     })
     .then(function(ingredients) {
       var mainEl;
-//      var meal = doc.data();
-//      if (meal) {
-//        mainEl = that.renderTemplate('main');
-//
-//        var nutritionFacts = meal.nutritionFacts;
-//        var el = that.renderTemplate('review-card', meal);
-//        el.querySelector('.calories').append(that.renderStars(nutritionFacts.calories));
-//        el.querySelector('.carbs').append(that.renderStars(nutritionFacts.carbs));
-//        el.querySelector('.protein').append(that.renderStars(nutritionFacts.protein));
-//        el.querySelector('.fat').append(that.renderStars(nutritionFacts.fat));
-//        mainEl.querySelector('#cards').append(el);
-//      } else {
-//        mainEl = that.renderTemplate('no-ratings', {
-//          add_mock_data: function() {
-//            that.addMockCalories(id).then(function() {
-//              that.rerender();
-//            });
-//          }
-//        });
-//      }
+
       if (ingredients.size) {
         mainEl = that.renderTemplate('main');
         ingredients.forEach(function(ingredient) {
           var data = ingredient.data();
           var el = that.renderTemplate('review-card', data);
-          ///el.querySelector('.ingredients').append(that.renderStars(data.rating)/*/);
           mainEl.querySelector('#cards').append(el);
         })
       }

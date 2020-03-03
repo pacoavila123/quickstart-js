@@ -67,25 +67,32 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   this.getDocumentsInQuery(query, render);
 };
 
-FriendlyEats.prototype.addIngredient = function(mealID, ingredient) {
+FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
   const collection = firebase.firestore().collection('meals');
-  const document = collection.doc(mealID);
-  const ingredientDoc = document.collection('ingredients').doc();
+  const mealDoc = collection.doc(mealID);
+  const ingredientDoc = mealDoc.collection('ingredients').doc();
 
   return firebase.firestore().runTransaction((transaction) => {
-    return transaction.get(document).then((doc) => {
+    return transaction.get(mealDoc).then((doc) => {
       const data = doc.data();
 
       var newNutritionFacts = data.nutritionFacts;
-      newNutritionFacts.calories += ingredient.nutritionFacts.calories;
-      newNutritionFacts.carbs += ingredient.nutritionFacts.carbs;
-      newNutritionFacts.protein += ingredient.nutritionFacts.protein;
-      newNutritionFacts.fat += ingredient.nutritionFacts.fat;
+      var ingData = ingredientDocRef.data();
+      const ingFacts = ingData.nutritionFacts;
+      newNutritionFacts.calories += ingFacts.calories;
+      newNutritionFacts.carbs += ingFacts.carbs;
+      newNutritionFacts.protein += ingFacts.protein;
+      newNutritionFacts.fat += ingFacts.fat;
 
-      transaction.update(document, {
+      transaction.update(mealDoc, {
         nutritionFacts: newNutritionFacts,
       });
-      return transaction.set(ingredientDoc, ingredient);
+      console.log(ingredientDocRef);
+      return transaction.set(ingredientDoc, {
+        ingredient_id: ingredientDocRef.id,
+        name: ingData.name,
+        nutritionFacts: ingData.nutritionFacts,
+      });
     })
   })
 }
