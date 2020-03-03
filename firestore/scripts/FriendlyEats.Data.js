@@ -58,6 +58,10 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
     query = query.where('category', '==', filters.category);
   }
 
+  if (filters.meal_type !== 'Any') {
+    query = query.where('meal_type', '==', filters.meal_type);
+  }
+
   if (filters.sort === 'Calories') {
     query = query.orderBy('nutritionFacts.calories', 'desc');
   } else if (filters.sort === 'Date') {

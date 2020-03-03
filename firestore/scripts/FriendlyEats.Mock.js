@@ -32,16 +32,19 @@ FriendlyEats.prototype.addMockMeals = function() {
 };
 
 FriendlyEats.prototype.addMockFoods = function () {
-  for (var i = 0; i < 20; i++) {
-    this.addFood(this.getMockFood());
-  }
+  var that = this;
+  this.data.food_names.forEach(function(name) {
+    var nutritionFacts = that.getMockNutritionFacts();
+    that.addFood({
+       name: name,
+       nutritionFacts: nutritionFacts,
+     });
+  });
 }
 
 FriendlyEats.prototype.addMockMeal = function () {
-    var name =
-        this.getRandomItem(this.data.adjectives) +
-        ' ' +
-        this.getRandomItem(this.data.words);
+    var meal_type = this.getRandomItem(this.data.meal_types);
+    var name = this.getRandomItem(this.data.adjectives) + ' ' + meal_type;
     var category = this.getRandomItem(this.data.categories);
     var photoID = Math.floor(Math.random() * 22) + 1;
     var photo = 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_' + photoID + '.png';
@@ -51,6 +54,7 @@ FriendlyEats.prototype.addMockMeal = function () {
 
     var promise = this.addMeal({
       name: name,
+      meal_type: meal_type,
       category: category,
       date: date,
       photo: photo,
@@ -80,15 +84,6 @@ FriendlyEats.prototype.addMockIngredients = function(mealID) {
     });
 }
 
-FriendlyEats.prototype.getMockFood = function () {
-  var name = this.getRandomItem(this.data.food_names);
-  var nutritionFacts = this.getMockNutritionFacts();
-  return {
-    name: name,
-    nutritionFacts: nutritionFacts,
-  };
-}
-
 FriendlyEats.prototype.getMockNutritionFacts = function() {
   var calories = Math.floor(Math.random() * 1000) + 1;
   var serving_size = Math.floor(Math.random() * 4) + 1;
@@ -114,20 +109,22 @@ FriendlyEats.prototype.data = {
     'Awesome',
     'Googley',
     'Umami',
+    'Healthy',
   ],
-  words: [
+  meal_types: [
     'Breakfast',
     'Lunch',
     'Dinner',
     'Snack',
+    'Treat',
   ],
   categories: [
-    'Mains',
-    'Sides',
-    'Salads',
-    'Desserts',
-    'Flatbread/Pizzas',
-    'Soups/Broths',
+    'Main',
+    'Side',
+    'Salad',
+    'Dessert',
+    'Flatbread/Pizza',
+    'Soup/Broth',
   ],
   food_names: [
     'Beef',

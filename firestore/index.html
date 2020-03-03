@@ -38,8 +38,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="#4285F4">
 
   <!-- Tile icon for Win8 -->
-  <!-- <meta name="msapplication-TileColor" content="#3372DF">
-  <meta name="msapplication-navbutton-color" content="#303F9F"> -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-navbutton-color" content="#303F9F">
 
   <!-- Material Design Components -->
   <link rel="stylesheet"
@@ -204,13 +204,18 @@
   </div>
 
   <i hidden class="template material-icons" id="star-border-icon">star_border</i>
-  <i hidden class="template material-icons" id="star-icon">star</i>
+  <i hidden class="template material-icons" id="fire-icon">whatshot</i>
 
   <ul hidden class="template mdc-list" id="item-list">
       <li class="mdc-list-item" data-mdc-auto-init="MDCRipple" data-fir-foreach="items" data-fir-content="~"></li>
   </ul>
 
   <ul hidden class="template mdc-list" id="all-filters-list">
+    <li id="show-page-meal_type" class="mdc-list-item" data-mdc-auto-init="MDCRipple">
+      <i class="material-icons">emoji_food_beverage</i>
+      <span data-fir-if-not="meal_type">Any Meal</span>
+      <b data-fir-content="meal_type"></b>
+    </li>
     <li id="show-page-category" class="mdc-list-item" data-mdc-auto-init="MDCRipple">
       <i class="material-icons">fastfood</i>
       <span data-fir-if-not="category">Any Category</span>
@@ -252,20 +257,20 @@
           <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>
         </footer>
       </div>
-<!--      <div class="page" id="page-city">-->
-<!--        <header class="mdc-dialog__header">-->
-<!--          <i class="material-icons">location_on</i>-->
-<!--          <h2 id="mdc-dialog-with-list-label" class="mdc-dialog__header__title">-->
-<!--            Location-->
-<!--          </h2>-->
-<!--        </header>-->
-<!--        <section class="mdc-dialog__body mdc-dialog__body&#45;&#45;scrollable">-->
-<!--          <div id="city-list"></div>-->
-<!--        </section>-->
-<!--        <footer class="mdc-dialog__footer">-->
-<!--          <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>-->
-<!--        </footer>-->
-<!--      </div>-->
+      <div class="page" id="page-meal_type">
+        <header class="mdc-dialog__header">
+          <i class="material-icons">emoji_food_beverage</i>
+          <h2 id="mdc-dialog-with-list-label" class="mdc-dialog__header__title">
+            Meal Type
+          </h2>
+        </header>
+        <section class="mdc-dialog__body mdc-dialog__body--scrollable">
+          <div id="meal_type-list"></div>
+        </section>
+        <footer class="mdc-dialog__footer">
+          <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>
+        </footer>
+      </div>
 <!--      <div class="page" id="page-price">-->
 <!--          <header class="mdc-dialog__header">-->
 <!--            <i class="material-icons">monetization_on</i>-->

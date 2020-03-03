@@ -105,14 +105,13 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     }
   };
 
-  if (filters.category || filters.sort !== 'Date' ) {
-    console.log("getFilteredMeals" + filters.category + " " + filters.sort);
+  if (filters.meal_type || filters.category || filters.sort !== 'Date' ) {
     this.getFilteredMeals({
+      meal_type: filters.meal_type || 'Any',
       category: filters.category || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
-    console.log("getAllMeals");
     this.getAllMeals(renderResults);
   }
 
@@ -220,6 +219,11 @@ FriendlyEats.prototype.initFilterDialog = function() {
   var pages = dialog.querySelectorAll('.page');
 
   this.replaceElement(
+    dialog.querySelector('#meal_type-list'),
+    that.renderTemplate('item-list', { items: ['Any'].concat(that.data.meal_types) })
+  );
+
+  this.replaceElement(
     dialog.querySelector('#category-list'),
     that.renderTemplate('item-list', { items: ['Any'].concat(that.data.categories) })
   );
@@ -233,6 +237,7 @@ FriendlyEats.prototype.initFilterDialog = function() {
     dialog.querySelectorAll('#page-all .mdc-list-item').forEach(function(el) {
       el.addEventListener('click', function() {
         var id = el.id.split('-').slice(1).join('-');
+        console.log(id);
         displaySection(id);
       });
     });
@@ -277,10 +282,16 @@ FriendlyEats.prototype.initFilterDialog = function() {
 FriendlyEats.prototype.updateQuery = function(filters) {
   var query_description = '';
 
-  if (filters.category !== '') {
-    query_description += filters.category;
+  if (filters.meal_type !== '') {
+    query_description += filters.meal_type;
   } else {
     query_description += 'any meal';
+  }
+
+  if (filters.category !== '') {
+    query_description += ' that is a ' + filters.category;
+  } else {
+    query_description += ' of any kind of food';
   }
 
   if (filters.sort === 'Calories') {
@@ -462,11 +473,9 @@ FriendlyEats.prototype.renderStars = function(calories) {
   for (var r = 0; r < 5; r += 1) {
     var star;
     if (r < Math.floor(calories) / 100) {
-      star = this.renderTemplate('star-icon', {});
-    } else {
-      star = this.renderTemplate('star-border-icon', {});
+      star = this.renderTemplate('fire-icon', {});
+      el.append(star);
     }
-    el.append(star);
   }
   return el;
 };

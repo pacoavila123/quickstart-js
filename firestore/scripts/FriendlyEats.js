@@ -21,6 +21,7 @@
 function FriendlyEats() { // eslint-disable-line no-redeclare
   this.filters = {
     category: '',
+    meal_type: '',
     sort: 'Date'
   };
 
