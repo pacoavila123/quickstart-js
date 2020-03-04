@@ -147,7 +147,6 @@
                 <div class="max_width_600">
                   <h2 data-fir-content="name"></h2>
                   <span class="price"></span>
-                  <div class="calories"></div>
                   <div class="details">
                     <span class="calories"></span>
                     <span data-fir-content="category"></span>
@@ -170,18 +169,26 @@
     </header>
   </div>
 
-  <div hidden class="template" id="calories"></div>
-  <span hidden class="template" id="price"></span>
-
+  <div hidden class="template" id="ingredients-header">Ingredients:</div>
   <div hidden class="template mdc-layout-grid__cell--span-12" id="review-card">
     <div class="review max_width_600">
         <div class="header">
-          <div data-fir-content="name"></div>
+          <div data-fir-content="name" data-fir-click="go_to_food"></div>
           <span class="light" data-fir-content="nutritionFacts/calories"></span> Calories,
           <span class="light" data-fir-content="nutritionFacts/carbs"></span> Carbs (g),
           <span class="light" data-fir-content="nutritionFacts/protein"></span> Protein (g),
           <span class="light" data-fir-content="nutritionFacts/fat"></span> Fat (g)
         </div>
+    </div>
+  </div>
+  <div hidden class="template mdc-layout-grid__cell--span-12" id="details-card">
+    <div class="review max_width_600">
+      <div class="header">
+        <span data-fir-content="nutritionFacts/calories"></span> Calories <span class="calories_icon"></span>
+        <span data-fir-content="nutritionFacts/carbs"></span> Carbs (g) <span class="carbs_icon"></span>
+        <span data-fir-content="nutritionFacts/protein"></span> Protein (g) <span class="protein_icon"></span>
+        <span data-fir-content="nutritionFacts/fat"></span> Fat (g) <span class="fat_icon"></span>
+      </div>
     </div>
   </div>
 
@@ -203,8 +210,13 @@
     </div>
   </div>
 
+  <div hidden class="template" id="calories"></div>
+
   <i hidden class="template material-icons" id="star-border-icon">star_border</i>
   <i hidden class="template material-icons" id="fire-icon">whatshot</i>
+  <i hidden class="template material-icons" id="protein-icon">fitness_center</i>
+  <i hidden class="template material-icons" id="carbs-icon">fastfood</i>
+  <i hidden class="template material-icons" id="fat-icon">restaurant_meal</i>
 
   <ul hidden class="template mdc-list" id="item-list">
       <li class="mdc-list-item" data-mdc-auto-init="MDCRipple" data-fir-foreach="items" data-fir-content="~"></li>

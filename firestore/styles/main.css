@@ -283,10 +283,14 @@
 
  #review-card #calories .material-icons {
    font-size: 20px;
-
  }
 
  #review-card .review {
+   padding-bottom: 10px;
+   border-bottom: 1px solid #ccc;
+ }
+
+ #details-card .review {
    padding-bottom: 10px;
    border-bottom: 1px solid #ccc;
  }

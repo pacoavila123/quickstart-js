@@ -51,6 +51,10 @@ FriendlyEats.prototype.getMeal = function (id) {
   return firebase.firestore().collection('meals').doc(id).get();
 };
 
+FriendlyEats.prototype.getFood = function (id) {
+  return firebase.firestore().collection('foods').doc(id).get();
+}
+
 FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   let query = firebase.firestore().collection('meals');
 

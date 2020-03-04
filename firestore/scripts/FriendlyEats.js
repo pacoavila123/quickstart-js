@@ -68,6 +68,13 @@ FriendlyEats.prototype.initRouter = function() {
         that.viewMeal(id);
       }
     })
+    .on({
+      '/foods/*': function() {
+        var path = that.getCleanPath(document.location.pathname);
+        var id = path.split('/')[2];
+        that.viewFood(id);
+      }
+    })
     .resolve();
 
   firebase

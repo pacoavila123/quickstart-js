@@ -98,7 +98,7 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
       nutritionFactsEl.innerHTML = '';
     }
 
-    nutritionFactsEl.append(that.renderStars(data.nutritionFacts.calories));
+    nutritionFactsEl.append(that.renderCalories(data.nutritionFacts.calories));
 
     if (!existingMealCardEl) {
       mainEl.querySelector('#cards').append(el);
@@ -325,12 +325,58 @@ FriendlyEats.prototype.viewMeal = function(id) {
 
       if (ingredients.size) {
         mainEl = that.renderTemplate('main');
+        mainEl.querySelector('#cards').append(that.renderTemplate('ingredients-header'));
         ingredients.forEach(function(ingredient) {
           var data = ingredient.data();
+          data['go_to_food'] = function() {
+            that.router.navigate('/foods/' + data.food_id);
+          }
           var el = that.renderTemplate('review-card', data);
+
           mainEl.querySelector('#cards').append(el);
         })
       }
+
+      var headerEl = that.renderTemplate('header-base', {
+        hasSectionHeader: true
+      });
+
+      that.replaceElement(document.querySelector('.header'), sectionHeaderEl);
+      that.replaceElement(document.querySelector('main'), mainEl);
+    })
+    .then(function() {
+      that.router.updatePageLinks();
+    })
+    .catch(function(err) {
+      console.warn('Error rendering page', err);
+    });
+};
+
+FriendlyEats.prototype.viewFood = function(id) {
+  var sectionHeaderEl;
+  var that = this;
+
+  return this.getFood(id)
+    .then(function(doc) {
+      var data = doc.data();
+
+      sectionHeaderEl = that.renderTemplate('meal-header', data);
+
+      var mainEl;
+      mainEl = that.renderTemplate('main');
+
+      data.details = "One day we'll have micronutrients here";
+      var el = that.renderTemplate('details-card', data);
+      var calIconEl = el.querySelector('.calories_icon');
+      calIconEl.append(that.renderCalories(data.nutritionFacts.calories));
+      var carbIconEl = el.querySelector('.carbs_icon');
+      carbIconEl.append(that.renderCarbs(data.nutritionFacts.carbs));
+      var proteinIconEl = el.querySelector('.protein_icon');
+      proteinIconEl.append(that.renderProtein(data.nutritionFacts.protein));
+      var fatIconEl = el.querySelector('.fat_icon');
+      fatIconEl.append(that.renderFat(data.nutritionFacts.fat));
+
+      mainEl.querySelector('#cards').append(el);
 
       var headerEl = that.renderTemplate('header-base', {
         hasSectionHeader: true
@@ -468,13 +514,55 @@ FriendlyEats.prototype.getDeepItem = function(obj, path) {
   return obj;
 };
 
-FriendlyEats.prototype.renderStars = function(calories) {
+FriendlyEats.prototype.renderCalories = function(calories) {
   var el = this.renderTemplate('calories', {});
   for (var r = 0; r < 5; r += 1) {
-    var star;
+    var icon;
     if (r < Math.floor(calories) / 100) {
-      star = this.renderTemplate('fire-icon', {});
-      el.append(star);
+      icon = this.renderTemplate('fire-icon', {});
+      el.append(icon);
+    }
+  }
+  return el;
+};
+
+FriendlyEats.prototype.renderProtein = function(protein) {
+  var el = this.renderTemplate('calories', {});
+  for (var r = 0; r < 10; r += 1) {
+    var icon;
+    if (r < Math.floor(protein) / 10) {
+      icon = this.renderTemplate('protein-icon', {});
+      el.append(icon);
+    } else {
+      break;
+    }
+  }
+  return el;
+};
+
+FriendlyEats.prototype.renderCarbs = function(carbs) {
+  var el = this.renderTemplate('calories', {});
+  for (var r = 0; r < 10; r += 1) {
+    var icon;
+    if (r < Math.floor(carbs) / 10) {
+      icon = this.renderTemplate('carbs-icon', {});
+      el.append(icon);
+    } else {
+      break;
+    }
+  }
+  return el;
+};
+
+FriendlyEats.prototype.renderFat = function(fat) {
+  var el = this.renderTemplate('calories', {});
+  for (var r = 0; r < 10; r += 1) {
+    var icon;
+    if (r < Math.floor(fat) / 10) {
+      icon = this.renderTemplate('fat-icon', {});
+      el.append(icon);
+    } else {
+      break;
     }
   }
   return el;
