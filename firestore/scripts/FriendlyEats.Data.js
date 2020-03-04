@@ -23,7 +23,7 @@ FriendlyEats.prototype.addMeal = function (data) {
 FriendlyEats.prototype.addFood = function (data) {
   const collection = firebase.firestore().collection('foods');
   return collection.add(data);
-}
+};
 
 FriendlyEats.prototype.getAllMeals = function (render) {
   const query = firebase.firestore()
@@ -53,7 +53,7 @@ FriendlyEats.prototype.getMeal = function (id) {
 
 FriendlyEats.prototype.getFood = function (id) {
   return firebase.firestore().collection('foods').doc(id).get();
-}
+};
 
 FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   let query = firebase.firestore().collection('meals');
@@ -95,7 +95,6 @@ FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
       transaction.update(mealDoc, {
         nutritionFacts: newNutritionFacts,
       });
-      console.log(ingredientDocRef);
       return transaction.set(ingredientDoc, {
         food_id: ingredientDocRef.id,
         name: ingData.name,
@@ -103,26 +102,4 @@ FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
       });
     })
   })
-}
-
-FriendlyEats.prototype.addRating = function (mealID, rating) {
-  const collection = firebase.firestore().collection('meals');
-  const document = collection.doc(mealID);
-  const newRatingDocument = document.collection('ratings').doc();
-
-  return firebase.firestore().runTransaction((transaction) => {
-    return transaction.get(document).then((doc) => {
-      const data = doc.data();
-
-      const newAverage =
-          (data.numRating * data.avgRating + rating.rating) /
-          (data.numRating + 1);
-
-      transaction.update(document, {
-        numRating: data.numRating + 1,
-        avgRating: newAverage
-      });
-      return transaction.set(newRatingDocument, rating);
-    });
-  });
 };

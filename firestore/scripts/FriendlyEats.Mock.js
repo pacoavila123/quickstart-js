@@ -51,9 +51,11 @@ FriendlyEats.prototype.addMockMeal = function () {
     var date = firebase.firestore.Timestamp.now();
     var nutritionFacts = this.getMockNutritionFacts();
     var that = this;
+    var userId = firebase.auth().currentUser.uid;
 
     var promise = this.addMeal({
       name: name,
+      userId: userId,
       meal_type: meal_type,
       category: category,
       date: date,
