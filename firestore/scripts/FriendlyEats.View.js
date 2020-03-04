@@ -43,7 +43,8 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   this.replaceElement(
     headerEl.querySelector('#section-header'),
     this.renderTemplate('filter-display', {
-      filter_description: filter_description
+      filter_description: filter_description,
+      username: firebase.auth().currentUser.email
     })
   );
 
@@ -80,7 +81,6 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
       console.log(err);
     });
   });
-
 
   var renderResults = function(doc) {
     if (!doc) {
