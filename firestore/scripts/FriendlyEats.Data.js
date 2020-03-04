@@ -26,8 +26,11 @@ FriendlyEats.prototype.addFood = function (data) {
 };
 
 FriendlyEats.prototype.getAllMeals = function (render) {
+  var userId = firebase.auth().currentUser.uid;
+  console.log(userId);
   const query = firebase.firestore()
     .collection('meals')
+    .where('userId', '==', userId)
     .orderBy('date', 'desc')
     .limit(50);
   this.getDocumentsInQuery(query, render);

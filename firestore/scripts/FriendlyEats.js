@@ -31,9 +31,14 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
 
   firebase.firestore().enablePersistence({synchronizeTabs:true})
     .then(function() {
-      return firebase.auth().signInAnonymously();
+      var provider = new firebase.auth.GoogleAuthProvider();
+      if (firebase.auth().currentUser == null) {
+        return firebase.auth().signInWithRedirect(provider);
+      }
+      return;
     })
     .then(function() {
+      console.log("initializing...");
       that.initTemplates();
       that.initRouter();
       that.initReviewDialog();

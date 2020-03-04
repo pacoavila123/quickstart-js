@@ -50,14 +50,17 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   this.replaceElement(document.querySelector('.header'), headerEl);
   this.replaceElement(document.querySelector('main'), mainEl);
 
+    console.log("adding listeneers...");
   var that = this;
   headerEl.querySelector('#show-filters').addEventListener('click', function() {
     that.dialogs.filter.show();
   });
-  headerEl.querySelector('#show-add-meal').addEventListener('click', function() {
+  headerEl.querySelector('#add-meal').addEventListener('click', function() {
+    console.log("Got add-meal click");
     that.addMockMeal();
   });
   headerEl.querySelector('#sign-in').addEventListener('click', function() {
+    console.log("we doing this...");
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function(result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
@@ -72,6 +75,7 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
+      console.log(err);
     });
   });
 
