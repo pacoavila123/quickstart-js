@@ -19,9 +19,11 @@
  * Initializes the FriendlyEats app.
  */
 function FriendlyEats() { // eslint-disable-line no-redeclare
+  // TODO(pacoavila) consider a user filter to allow social meals.
   this.filters = {
     category: '',
     meal_type: '',
+//    user: '',
     sort: 'Date'
   };
 
