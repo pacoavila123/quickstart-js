@@ -107,7 +107,7 @@ FriendlyEats.prototype.initRouter = function() {
       if (snapshot.empty) {
         that.router.navigate('/setup');
       } else {
-        that.updateQuery(that.filters);
+        that.rerender();
       }
     });
 };

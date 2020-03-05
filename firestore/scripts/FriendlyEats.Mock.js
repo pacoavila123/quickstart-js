@@ -37,21 +37,25 @@ FriendlyEats.prototype.addMockFoods = function () {
     var nutritionFacts = that.getMockNutritionFacts();
     that.addFood({
        name: name,
+       photo: 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_19.png',
        nutritionFacts: nutritionFacts,
      });
   });
 }
 
 FriendlyEats.prototype.addMockMeal = function () {
+    var user = firebase.auth().currentUser;
     var meal_type = this.getRandomItem(this.data.meal_types);
-    var name = this.getRandomItem(this.data.adjectives) + ' ' + meal_type;
+    var name = user.displayName + "'s "
+      + this.getRandomItem(this.data.adjectives)
+      + ' ' + meal_type;
     var category = this.getRandomItem(this.data.categories);
     var photoID = Math.floor(Math.random() * 22) + 1;
     var photo = 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_' + photoID + '.png';
     var date = firebase.firestore.Timestamp.now();
     var nutritionFacts = this.getMockNutritionFacts();
     var that = this;
-    var userId = firebase.auth().currentUser.uid;
+    var userId = user.uid;
 
     var promise = this.addMeal(userId, {
       name: name,

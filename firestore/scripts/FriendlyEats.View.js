@@ -60,7 +60,6 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     that.addMockMeal();
   });
   headerEl.querySelector('#sign-in').addEventListener('click', function() {
-    console.log("we doing this...");
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
     .then(function(result) {
