@@ -26,10 +26,6 @@ FriendlyEats.prototype.initTemplates = function() {
   });
 };
 
-FriendlyEats.prototype.viewHome = function() {
-  this.getAllMealsForUser(firebase.auth().currentUser.uid);
-};
-
 FriendlyEats.prototype.viewList = function(filters, filter_description) {
   if (!filter_description) {
     filter_description = 'any type of food with any calories.';
@@ -128,13 +124,13 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.meal_type || filters.category || filters.sort !== 'Date' ) {
-    this.getFilteredMeals(firebase.auth().currentUser.uid, {
+    this.getFilteredMeals({
       meal_type: filters.meal_type || 'Any',
       category: filters.category || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
-    this.getAllMealsForUser(firebase.auth().currentUser.uid, renderResults);
+    this.getAllPublicMeals(renderResults);
   }
 
   var toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));

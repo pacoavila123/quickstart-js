@@ -46,7 +46,7 @@ FriendlyEats.prototype.addMockFoods = function () {
 FriendlyEats.prototype.addMockMeal = function () {
     var user = firebase.auth().currentUser;
     var meal_type = this.getRandomItem(this.data.meal_types);
-    var name = user.displayName + "'s "
+    var name = user.email + "'s "
       + this.getRandomItem(this.data.adjectives)
       + ' ' + meal_type;
     var category = this.getRandomItem(this.data.categories);
@@ -65,6 +65,7 @@ FriendlyEats.prototype.addMockMeal = function () {
       date: date,
       photo: photo,
       nutritionFacts: nutritionFacts,
+      visibility: 'public'
     })
     .then(function(docRef) {
       // TODO(pacoavila) figure out why we're getting 400 on these.
@@ -87,11 +88,13 @@ FriendlyEats.prototype.addMockIngredients = function(mealID) {
         console.log(doc.id, " => ", doc.data());
         that.addIngredient(mealID, doc);
       })
+    }).catch(function(error) {
+      console.log("Error on snapshot after addMockIngredients: ", error);
     });
 }
 
 FriendlyEats.prototype.getMockNutritionFacts = function() {
-  var calories = Math.floor(Math.random() * 1000) + 1;
+  var calories = Math.floor(Math.random() * 100) + 1;
   var serving_size = Math.floor(Math.random() * 4) + 1;
   var protein = Math.floor(Math.random() * 50) + 1;
   var carbs = Math.floor(Math.random() * 50) + 1;
@@ -108,14 +111,13 @@ FriendlyEats.prototype.getMockNutritionFacts = function() {
 
 FriendlyEats.prototype.data = {
   adjectives: [
-    'Savory',
-    'Spicy',
-    'Sweet',
-    'Bitter',
-    'Awesome',
-    'Googley',
-    'Umami',
-    'Healthy',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ],
   meal_types: [
     'Breakfast',
