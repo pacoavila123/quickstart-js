@@ -53,7 +53,7 @@ FriendlyEats.prototype.addMockMeal = function () {
     var that = this;
     var userId = firebase.auth().currentUser.uid;
 
-    var promise = this.addMeal({
+    var promise = this.addMeal(userId, {
       name: name,
       userId: userId,
       meal_type: meal_type,

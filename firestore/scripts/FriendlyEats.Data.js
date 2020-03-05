@@ -15,22 +15,33 @@
  */
 'use strict';
 
-FriendlyEats.prototype.addMeal = function (data) {
-  const collection = firebase.firestore().collection('meals');
-  return collection.add(data);
+FriendlyEats.prototype.addUser = function (userId, data) {
+  const userDoc = firebase.firestore().collection('users').doc(userId);
+  return userDoc.set(data);
+};
+
+FriendlyEats.prototype.getUser = function (userId) {
+  return firebase.firestore().collection('users').doc(userId).get();
+};
+
+FriendlyEats.prototype.addMeal = function (userId, data) {
+  const mealsCollection = firebase.firestore()
+  .collection('users').doc(userId)
+  .collection('meals');
+  return mealsCollection.add(data);
 };
 
 FriendlyEats.prototype.addFood = function (data) {
-  const collection = firebase.firestore().collection('foods');
-  return collection.add(data);
+  const foodsCollection = firebase.firestore().collection('foods');
+  return foodsCollection.add(data);
 };
 
-FriendlyEats.prototype.getAllMeals = function (render) {
-  var userId = firebase.auth().currentUser.uid;
+FriendlyEats.prototype.getAllMealsForUser = function (userId, render) {
   console.log(userId);
   const query = firebase.firestore()
+    .collection('users')
+    .doc(userId)
     .collection('meals')
-    .where('userId', '==', userId)
     .orderBy('date', 'desc')
     .limit(50);
   this.getDocumentsInQuery(query, render);
@@ -50,16 +61,17 @@ FriendlyEats.prototype.getDocumentsInQuery = function (query, render) {
   });
 };
 
-FriendlyEats.prototype.getMeal = function (id) {
-  return firebase.firestore().collection('meals').doc(id).get();
+FriendlyEats.prototype.getMeal = function (userId, mealId) {
+  return firebase.firestore().collection('users').doc(userId)
+  .collection('meals').doc(mealId).get();
 };
 
 FriendlyEats.prototype.getFood = function (id) {
   return firebase.firestore().collection('foods').doc(id).get();
 };
 
-FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
-  let query = firebase.firestore().collection('meals');
+FriendlyEats.prototype.getFilteredMeals = function (userId, filters, render) {
+  let query = firebase.firestore().collection('users').doc(userId).collection('meals');
 
   if (filters.category !== 'Any') {
     query = query.where('category', '==', filters.category);
@@ -79,7 +91,9 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
 };
 
 FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
-  const collection = firebase.firestore().collection('meals');
+  const collection = firebase.firestore()
+  .collection('users').doc(firebase.auth().currentUser.uid)
+  .collection('meals');
   const mealDoc = collection.doc(mealID);
   const ingredientDoc = mealDoc.collection('ingredients').doc();
 

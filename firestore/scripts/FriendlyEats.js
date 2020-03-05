@@ -31,16 +31,30 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
 
   var that = this;
 
-  firebase.firestore().enablePersistence({synchronizeTabs:true})
-    .then(function() {
+  firebase.firestore().enablePersistence({synchronizeTabs:true}).then(function() {
       var provider = new firebase.auth.GoogleAuthProvider();
-      if (firebase.auth().currentUser == null) {
-        return firebase.auth().signInWithRedirect(provider);
+      var user = firebase.auth().currentUser;
+      if (user == null) {
+        firebase.auth().signInWithRedirect(provider).then(function(result) {
+          user = result.user;
+        }).catch(function(error) {
+          console.log("Failed to sign in user: ", error);
+        });
       }
-      return;
+      console.log("checking for user: ", user.uid);
+      return firebase.firestore().collection('users').doc(user.uid).get().then(function(doc) {
+        if (!doc.exists) {
+          console.log("adding user: ", user);
+          that.addUser(user.uid, {
+            name: user.displayName,
+            email: user.email,
+          });
+        }
+      }).catch(function(error) {
+        console.log("error getting user:", error);
+      });
     })
     .then(function() {
-      console.log("initializing...");
       that.initTemplates();
       that.initRouter();
       that.initReviewDialog();
@@ -86,6 +100,8 @@ FriendlyEats.prototype.initRouter = function() {
 
   firebase
     .firestore()
+    .collection('users')
+    .doc(firebase.auth().currentUser.uid)
     .collection('meals')
     .onSnapshot(function(snapshot) {
       if (snapshot.empty) {

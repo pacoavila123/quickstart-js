@@ -27,7 +27,7 @@ FriendlyEats.prototype.initTemplates = function() {
 };
 
 FriendlyEats.prototype.viewHome = function() {
-  this.getAllMeals();
+  this.getAllMealsForUser(firebase.auth().currentUser.uid);
 };
 
 FriendlyEats.prototype.viewList = function(filters, filter_description) {
@@ -51,7 +51,6 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   this.replaceElement(document.querySelector('.header'), headerEl);
   this.replaceElement(document.querySelector('main'), mainEl);
 
-    console.log("adding listeneers...");
   var that = this;
   headerEl.querySelector('#show-filters').addEventListener('click', function() {
     that.dialogs.filter.show();
@@ -130,13 +129,13 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.meal_type || filters.category || filters.sort !== 'Date' ) {
-    this.getFilteredMeals({
+    this.getFilteredMeals(firebase.auth().currentUser.uid, {
       meal_type: filters.meal_type || 'Any',
       category: filters.category || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
-    this.getAllMeals(renderResults);
+    this.getAllMealsForUser(firebase.auth().currentUser.uid, renderResults);
   }
 
   var toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -180,6 +179,8 @@ FriendlyEats.prototype.viewSetup = function() {
 
   firebase
     .firestore()
+    .collection('users')
+    .doc(firebase.auth().currentUser.uid)
     .collection('meals')
     .limit(1)
     .onSnapshot(function(snapshot) {
@@ -331,7 +332,7 @@ FriendlyEats.prototype.viewMeal = function(id) {
   var sectionHeaderEl;
   var that = this;
 
-  return this.getMeal(id)
+  return this.getMeal(firebase.auth().currentUser.uid, id)
     .then(function(doc) {
       var data = doc.data();
       var dialog =  that.dialogs.add_review;
