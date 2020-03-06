@@ -36,9 +36,8 @@ FriendlyEats.prototype.addFood = function (data) {
   return foodsCollection.add(data);
 };
 
-FriendlyEats.prototype.getAllPublicMeals = function (render) {
-console.log("theorecially this shouyld work");
-  const query = firebase.firestore().collectionGroup('meals');
+FriendlyEats.prototype.getAllPublishedMeals = function (render) {
+  const query = firebase.firestore().collectionGroup('meals').where('published', '==', true);
   this.getDocumentsInQuery(query, render);
 };
 
@@ -53,6 +52,7 @@ FriendlyEats.prototype.getAllMealsForUser = function (userId, render) {
 };
 
 FriendlyEats.prototype.getDocumentsInQuery = function (query, render) {
+  console.log(query);
   query.onSnapshot((snapshot) => {
     if (!snapshot.size) {
       return render();

@@ -1,19 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /meals/{meal} {
-      allow get, list, create: if request.auth != null;
-      allow update, delete: if request.auth != null
-                    && request.auth.uid == resource.data.userId;
-      match /ingredients/{ingredient} {
-        allow read: if request.auth != null;
-        allow create: if request.auth != null;
-        allow update, delete: if request.auth.uid == resource.data.ingredient.userId;
+  	function signedIn() {
+    	return request.auth.uid != null;
+    }
+    match /{path=**}/meals/{meal} {
+    	allow read: if request.auth.uid == resource.data.userId || resource.data.published == true;
+    }
+  	match /users/{user} {
+    	allow read, create: if signedIn();
+      allow update, delete: if request.auth.uid == user;
+      match /meals/{meal} {
+        allow write: if request.auth != null
+        	&& request.auth.uid == user;
+        match /ingredients/{ingredient} {
+          allow read, write: if signedIn();
+        }
       }
     }
     match /foods/{food} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null;
+      allow read, write: if signedIn();
     }
   }
 }

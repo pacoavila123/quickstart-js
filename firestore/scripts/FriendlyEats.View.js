@@ -123,15 +123,16 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     }
   };
 
-  if (filters.meal_type || filters.category || filters.user || filters.sort !== 'Date' ) {
+  if (filters.meal_type || filters.category || filters.users || filters.sort !== 'Date' ) {
     this.getFilteredMeals({
       meal_type: filters.meal_type || 'Any',
       category: filters.category || 'Any',
-      user: filters.user || 'Any',
+      users: filters.users || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
-    this.getAllPublicMeals(renderResults);
+    console.log("getAllPublishedMeals");
+    this.getAllPublishedMeals(renderResults);
   }
 
   var toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
