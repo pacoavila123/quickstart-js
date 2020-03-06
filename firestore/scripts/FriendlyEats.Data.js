@@ -56,9 +56,10 @@ FriendlyEats.prototype.getAllMealsForUser = function (userId, render) {
 FriendlyEats.prototype.getDocumentsInQuery = function (query, render) {
   console.log(query);
   query.onSnapshot((snapshot) => {
-    if (!snapshot.size) {
-      return render();
-    }
+  // TODO(pacoavila display something when there's no results a little more gracefully.
+//    if (!snapshot.size) {
+//      render();
+//    }
 
     snapshot.docChanges().forEach((change) => {
       if (change.type === 'added' || change.type === 'modified') {
@@ -83,9 +84,8 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   let query;
   if (filters.user !== 'Any') {
     query = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('meals');
-  } else {
-    query = firebase.firestore().collectionGroup('meals').where('published', '==', true);
   }
+  query = query.where('published', '==', true);
 
   if (filters.category !== 'Any') {
     query = query.where('category', '==', filters.category);

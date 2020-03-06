@@ -19,7 +19,6 @@
  * Initializes the FriendlyEats app.
  */
 function FriendlyEats() { // eslint-disable-line no-redeclare
-  // TODO(pacoavila) consider a user filter to allow social meals.
   this.filters = {
     category: '',
     meal_type: '',
@@ -55,10 +54,15 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
       });
     })
     .then(function() {
+      console.log("p1");
       that.initTemplates();
+      console.log("p2");
       that.initRouter();
+      console.log("p3");
       that.initReviewDialog();
+      console.log("p4");
       that.initFilterDialog();
+      console.log("p5");
     }).catch(function(err) {
       console.log(err);
     });
@@ -75,11 +79,6 @@ FriendlyEats.prototype.initRouter = function() {
     .on({
       '/': function() {
         that.updateQuery(that.filters);
-      }
-    })
-    .on({
-      '/setup': function() {
-        that.viewSetup();
       }
     })
     .on({
@@ -101,15 +100,11 @@ FriendlyEats.prototype.initRouter = function() {
 
   firebase
     .firestore()
-    .collection('users')
-    .doc(firebase.auth().currentUser.uid)
-    .collection('meals')
+    .collectionGroup('meals')
+    .where('published', '==', true)
+    .where('userId', '==', firebase.auth().currentUser.uid)
     .onSnapshot(function(snapshot) {
-      if (snapshot.empty) {
-        that.router.navigate('/setup');
-      } else {
-        that.rerender();
-      }
+      that.rerender();
     });
 };
 

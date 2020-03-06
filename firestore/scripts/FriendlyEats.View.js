@@ -51,6 +51,7 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   headerEl.querySelector('#show-filters').addEventListener('click', function() {
     that.dialogs.filter.show();
   });
+  console.log("adding listener for add me");
   headerEl.querySelector('#add-meal').addEventListener('click', function() {
     console.log("Got add-meal click");
     that.addMockMeal();
@@ -139,53 +140,6 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   toolbar.fixedAdjustElement = document.querySelector('.mdc-toolbar-fixed-adjust');
 
   mdc.autoInit();
-};
-
-FriendlyEats.prototype.viewSetup = function() {
-  var headerEl = this.renderTemplate('header-base', {
-    hasSectionHeader: false
-  });
-
-  var config = this.getFirebaseConfig();
-  var noMealsEl = this.renderTemplate('no-meals', config);
-
-  var button = noMealsEl.querySelector('#add_mock_data');
-  var addingMockData = false;
-
-  var that = this;
-  button.addEventListener('click', function(event) {
-    if (addingMockData) {
-      return;
-    }
-
-    addingMockData = true;
-
-    event.target.style.opacity = '0.4';
-    event.target.innerText = 'Please wait...';
-
-    that.addMockMeals().then(function() {
-      that.rerender();
-    })
-    .catch(function(error) {
-      console.log("Failed to generate mock meals: " + error);
-    });
-  });
-
-  this.replaceElement(document.querySelector('.header'), headerEl);
-  this.replaceElement(document.querySelector('main'), noMealsEl);
-
-  firebase
-    .firestore()
-    .collection('users')
-    .doc(firebase.auth().currentUser.uid)
-    .collection('meals')
-    .limit(1)
-    .onSnapshot(function(snapshot) {
-      if (snapshot.size && !addingMockData) {
-        that.router.navigate('/');
-      }
-    });
-
 };
 
 FriendlyEats.prototype.initReviewDialog = function() {
