@@ -299,7 +299,8 @@ FriendlyEats.prototype.viewMeal = function(userId, id) {
       var data = doc.data();
       var dialog =  that.dialogs.add_review;
 
-      data.show_add_review = function() {
+      data.publish_meal = function() {
+        that.publishMeal(userId, id);
         dialog.show();
       };
 

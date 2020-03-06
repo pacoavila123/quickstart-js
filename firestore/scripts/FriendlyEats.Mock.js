@@ -65,7 +65,7 @@ FriendlyEats.prototype.addMockMeal = function () {
       date: date,
       photo: photo,
       nutritionFacts: nutritionFacts,
-      published: true
+      published: false
     })
     .then(function(docRef) {
       that.addMockIngredients(docRef.id);

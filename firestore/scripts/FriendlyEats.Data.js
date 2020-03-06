@@ -31,6 +31,18 @@ FriendlyEats.prototype.addMeal = function (userId, data) {
   return mealsCollection.add(data);
 };
 
+FriendlyEats.prototype.publishMeal = function(userId, mealId) {
+  console.log("i thjink we're publishing this.")
+  return firebase.firestore()
+    .collection('users').doc(userId)
+    .collection('meals').doc(mealId)
+    .update({published:true})
+    .catch(function(error) {
+      console.log("Failed to publish meal: ", error);
+    });
+};
+
+
 FriendlyEats.prototype.addFood = function (data) {
   const foodsCollection = firebase.firestore().collection('foods');
   return foodsCollection.add(data);
@@ -84,8 +96,9 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
   let query;
   if (filters.user !== 'Any') {
     query = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('meals');
+  } else {
+    query = query.where('published', '==', true);
   }
-  query = query.where('published', '==', true);
 
   if (filters.category !== 'Any') {
     query = query.where('category', '==', filters.category);

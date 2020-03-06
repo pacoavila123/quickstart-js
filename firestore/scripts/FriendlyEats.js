@@ -22,7 +22,7 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
   this.filters = {
     category: '',
     meal_type: '',
-    users: '',
+    users: 'Me',
     sort: 'Date'
   };
 
@@ -40,10 +40,8 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
           console.log("Failed to sign in user: ", error);
         });
       }
-      console.log("checking for user: ", user.uid);
       return firebase.firestore().collection('users').doc(user.uid).get().then(function(doc) {
         if (!doc.exists) {
-          console.log("adding user: ", user);
           that.addUser(user.uid, {
             name: user.displayName,
             email: user.email,
@@ -54,15 +52,10 @@ function FriendlyEats() { // eslint-disable-line no-redeclare
       });
     })
     .then(function() {
-      console.log("p1");
       that.initTemplates();
-      console.log("p2");
       that.initRouter();
-      console.log("p3");
       that.initReviewDialog();
-      console.log("p4");
       that.initFilterDialog();
-      console.log("p5");
     }).catch(function(err) {
       console.log(err);
     });
@@ -101,8 +94,8 @@ FriendlyEats.prototype.initRouter = function() {
   firebase
     .firestore()
     .collectionGroup('meals')
-    .where('published', '==', true)
     .where('userId', '==', firebase.auth().currentUser.uid)
+    .orderBy('date', 'desc')
     .onSnapshot(function(snapshot) {
       that.rerender();
     });
