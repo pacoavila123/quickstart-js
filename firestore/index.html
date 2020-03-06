@@ -233,6 +233,11 @@
       <span data-fir-if-not="category">Any Category</span>
       <b data-fir-content="category"></b>
     </li>
+    <li id="show-page-users" class="mdc-list-item" data-mdc-auto-init="MDCRipple">
+      <i class="material-icons">mood</i>
+      <span data-fir-if-not="users">Any User</span>
+      <b data-fir-content="users"></b>
+    </li>
     <li id="show-page-sort" class="mdc-list-item" data-mdc-auto-init="MDCRipple">
       <i class="material-icons">sort</i>
       <b data-fir-content="sort"></b>
@@ -283,36 +288,20 @@
           <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>
         </footer>
       </div>
-<!--      <div class="page" id="page-price">-->
-<!--          <header class="mdc-dialog__header">-->
-<!--            <i class="material-icons">monetization_on</i>-->
-<!--            <h2 id="mdc-dialog-with-list-label" class="mdc-dialog__header__title">-->
-<!--              Price-->
-<!--            </h2>-->
-<!--          </header>-->
-<!--          <section class="mdc-dialog__body mdc-dialog__body&#45;&#45;scrollable">-->
-<!--            <ul class="mdc-list">-->
-<!--              <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">-->
-<!--                Any-->
-<!--              </li>-->
-<!--              <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">-->
-<!--                $-->
-<!--              </li>-->
-<!--              <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">-->
-<!--                $$-->
-<!--              </li>-->
-<!--              <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">-->
-<!--                $$$-->
-<!--              </li>-->
-<!--              <li class="mdc-list-item" data-mdc-auto-init="MDCRipple">-->
-<!--                $$$$-->
-<!--              </li>-->
-<!--            </ul>-->
-<!--          </section>-->
-<!--        <footer class="mdc-dialog__footer">-->
-<!--          <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>-->
-<!--        </footer>-->
-<!--      </div>-->
+      <div class="page" id="page-users">
+        <header class="mdc-dialog__header">
+          <i class="material-icons">mood</i>
+          <h2 id="mdc-dialog-with-list-label" class="mdc-dialog__header__title">
+            User
+          </h2>
+        </header>
+        <section class="mdc-dialog__body mdc-dialog__body--scrollable">
+          <div id="users-list"></div>
+        </section>
+        <footer class="mdc-dialog__footer">
+          <button type="button" class="mdc-button mdc-dialog__footer__button back">Back</button>
+        </footer>
+      </div>
       <div class="page" id="page-sort">
         <header class="mdc-dialog__header">
           <i class="material-icons">sort</i>

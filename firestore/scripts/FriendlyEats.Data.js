@@ -76,7 +76,14 @@ FriendlyEats.prototype.getFood = function (id) {
 };
 
 FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
-  let query = firebase.firestore().collectionGroup('meals');
+
+  // OK, so we need to start the query as a group if it's for any user.
+  let query;
+  if (filters.user !== 'Any') {
+    query = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('meals');
+  } else {
+    query = firebase.firestore().collectionGroup('meals').where('published', '==', true);
+  }
 
   if (filters.category !== 'Any') {
     query = query.where('category', '==', filters.category);

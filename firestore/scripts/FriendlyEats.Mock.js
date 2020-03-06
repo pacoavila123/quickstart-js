@@ -65,7 +65,7 @@ FriendlyEats.prototype.addMockMeal = function () {
       date: date,
       photo: photo,
       nutritionFacts: nutritionFacts,
-      visibility: 'public'
+      published: true
     })
     .then(function(docRef) {
       // TODO(pacoavila) figure out why we're getting 400 on these.
@@ -144,5 +144,8 @@ FriendlyEats.prototype.data = {
     'Onion',
     'Flour',
     'Sugar',
+  ],
+  users: [
+    'Me',
   ],
 };

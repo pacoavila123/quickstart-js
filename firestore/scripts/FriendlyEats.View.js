@@ -123,10 +123,11 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     }
   };
 
-  if (filters.meal_type || filters.category || filters.sort !== 'Date' ) {
+  if (filters.meal_type || filters.category || filters.user || filters.sort !== 'Date' ) {
     this.getFilteredMeals({
       meal_type: filters.meal_type || 'Any',
       category: filters.category || 'Any',
+      user: filters.user || 'Any',
       sort: filters.sort
     }, renderResults);
   } else {
@@ -248,6 +249,11 @@ FriendlyEats.prototype.initFilterDialog = function() {
     that.renderTemplate('item-list', { items: ['Any'].concat(that.data.categories) })
   );
 
+  this.replaceElement(
+    dialog.querySelector('#users-list'),
+    that.renderTemplate('item-list', { items: ['Any'].concat(that.data.users) })
+  );
+
   var renderAllList = function() {
     that.replaceElement(
       dialog.querySelector('#all-filters-list'),
@@ -302,10 +308,16 @@ FriendlyEats.prototype.initFilterDialog = function() {
 FriendlyEats.prototype.updateQuery = function(filters) {
   var query_description = '';
 
-  if (filters.meal_type !== '') {
-    query_description += filters.meal_type;
+  if (filters.users !== '') {
+    query_description += 'your';
   } else {
-    query_description += 'any meal';
+    query_description += 'anybody\'s';
+  }
+
+  if (filters.meal_type !== '') {
+    query_description += ' ' + filters.meal_type;
+  } else {
+    query_description += ' meals';
   }
 
   if (filters.category !== '') {
