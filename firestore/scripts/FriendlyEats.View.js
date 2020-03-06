@@ -266,7 +266,7 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   if (filters.users !== '') {
     query_description += 'your';
   } else {
-    query_description += 'anybody\'s';
+    query_description += 'public';
   }
 
   if (filters.meal_type !== '') {

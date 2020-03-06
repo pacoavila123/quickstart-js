@@ -32,7 +32,6 @@ FriendlyEats.prototype.addMeal = function (userId, data) {
 };
 
 FriendlyEats.prototype.publishMeal = function(userId, mealId) {
-  console.log("i thjink we're publishing this.")
   return firebase.firestore()
     .collection('users').doc(userId)
     .collection('meals').doc(mealId)
@@ -91,11 +90,10 @@ FriendlyEats.prototype.getFood = function (id) {
 };
 
 FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
-
-  // OK, so we need to start the query as a group if it's for any user.
-  let query;
+  // TODO(pacoavila) Allow getting the logical OR of these results.
+  let query = firebase.firestore().collectionGroup('meals');
   if (filters.user !== 'Any') {
-    query = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('meals');
+    query = query.where('userId', '==', firebase.auth().currentUser.uid);
   } else {
     query = query.where('published', '==', true);
   }
@@ -119,8 +117,8 @@ FriendlyEats.prototype.getFilteredMeals = function (filters, render) {
 
 FriendlyEats.prototype.addIngredient = function(mealID, ingredientDocRef) {
   const collection = firebase.firestore()
-  .collection('users').doc(firebase.auth().currentUser.uid)
-  .collection('meals');
+    .collection('users').doc(firebase.auth().currentUser.uid)
+    .collection('meals');
   const mealDoc = collection.doc(mealID);
   const ingredientDoc = mealDoc.collection('ingredients').doc();
 
