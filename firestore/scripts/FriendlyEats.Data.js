@@ -37,7 +37,9 @@ FriendlyEats.prototype.addFood = function (data) {
 };
 
 FriendlyEats.prototype.getAllPublishedMeals = function (render) {
-  const query = firebase.firestore().collectionGroup('meals').where('published', '==', true);
+  const query = firebase.firestore().collectionGroup('meals')
+    .where('published', '==', true)
+    .orderBy('date', 'desc');
   this.getDocumentsInQuery(query, render);
 };
 

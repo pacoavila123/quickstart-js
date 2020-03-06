@@ -85,8 +85,9 @@ FriendlyEats.prototype.initRouter = function() {
     .on({
       '/meals/*': function() {
         var path = that.getCleanPath(document.location.pathname);
-        var id = path.split('/')[2];
-        that.viewMeal(id);
+        var userId = path.split('/')[2];
+        var id = path.split('/')[3];
+        that.viewMeal(userId, id);
       }
     })
     .on({

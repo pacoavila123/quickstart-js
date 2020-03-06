@@ -102,7 +102,7 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     var data = doc.data();
     data['.id'] = doc.id;
     data['go_to_meal'] = function() {
-      that.router.navigate('/meals/' + doc.id);
+      that.router.navigate('/meals/' +  data.userId + '/' + doc.id);
     };
 
     // check if meal card has already been rendered
@@ -336,11 +336,11 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   this.viewList(filters, query_description);
 };
 
-FriendlyEats.prototype.viewMeal = function(id) {
+FriendlyEats.prototype.viewMeal = function(userId, id) {
   var sectionHeaderEl;
   var that = this;
 
-  return this.getMeal(firebase.auth().currentUser.uid, id)
+  return this.getMeal(userId, id)
     .then(function(doc) {
       var data = doc.data();
       var dialog =  that.dialogs.add_review;

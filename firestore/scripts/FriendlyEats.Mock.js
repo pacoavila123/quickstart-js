@@ -68,7 +68,6 @@ FriendlyEats.prototype.addMockMeal = function () {
       published: true
     })
     .then(function(docRef) {
-      // TODO(pacoavila) figure out why we're getting 400 on these.
       that.addMockIngredients(docRef.id);
     });
 
@@ -85,7 +84,6 @@ FriendlyEats.prototype.addMockIngredients = function(mealID) {
     .get()
     .then(function(snapshot) {
       snapshot.forEach(function(doc){
-        console.log(doc.id, " => ", doc.data());
         that.addIngredient(mealID, doc);
       })
     }).catch(function(error) {
