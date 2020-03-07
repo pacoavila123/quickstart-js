@@ -15,33 +15,18 @@
  */
 'use strict';
 
-
-/**
- * Adds a set of mock Meals to the Cloud Firestore.
- */
-FriendlyEats.prototype.addMockMeals = function() {
-  this.addMockFoods();
-
-  var promises = [];
-
-  for (var i = 0; i < 20; i++) {
-    promises.push(this.addMockMeal());
-  }
-
-  return Promise.all(promises);
-};
-
 FriendlyEats.prototype.addMockFoods = function () {
   var that = this;
   this.data.food_names.forEach(function(name) {
     var nutritionFacts = that.getMockNutritionFacts();
     that.addFood({
        name: name,
+       category: 'Food',
        photo: 'https://storage.googleapis.com/firestorequickstarts.appspot.com/food_19.png',
        nutritionFacts: nutritionFacts,
      });
   });
-}
+};
 
 FriendlyEats.prototype.addMockMeal = function () {
     var user = firebase.auth().currentUser;
@@ -76,7 +61,7 @@ FriendlyEats.prototype.addMockMeal = function () {
       return Promise.reject();
     }
     return promise;
-}
+};
 
 FriendlyEats.prototype.addMockIngredients = function(mealID) {
   var that = this;
@@ -89,7 +74,7 @@ FriendlyEats.prototype.addMockIngredients = function(mealID) {
     }).catch(function(error) {
       console.log("Error on snapshot after addMockIngredients: ", error);
     });
-}
+};
 
 FriendlyEats.prototype.getMockNutritionFacts = function() {
   var calories = Math.floor(Math.random() * 100) + 1;

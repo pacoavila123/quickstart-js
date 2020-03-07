@@ -51,7 +51,6 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   headerEl.querySelector('#show-filters').addEventListener('click', function() {
     that.dialogs.filter.show();
   });
-  console.log("adding listener for add me");
   headerEl.querySelector('#add-meal').addEventListener('click', function() {
     console.log("Got add-meal click");
     that.addMockMeal();
